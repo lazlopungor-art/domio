@@ -67,7 +67,7 @@ export default function App() {
   ]
 
   const testimonials = [
-    { name: "Sophie M.", role: "Agent immobilier — Paris 16e", text: "Je passais 30 minutes par annonce. Avec Domio, c'est 30 secondes. Un gain de temps incroyable !" },
+    { name: "Sophie M.", role: "Agent immobilier — Paris 16e", text: "Je passais 30 minutes par annonce. Avec copyimo, c'est 30 secondes. Un gain de temps incroyable !" },
     { name: "Jean-Pierre L.", role: "Directeur d'agence — Bordeaux", text: "La qualité des textes générés est bluffante. Mes clients me demandent souvent qui rédige mes annonces." },
     { name: "Marie C.", role: "Négociatrice indépendante — Lyon", text: "Enfin un outil fait pour nous ! Le ton prestige est parfait pour mes biens haut de gamme." }
   ]
@@ -77,7 +77,7 @@ export default function App() {
     { q: "Puis-je annuler à tout moment ?", a: "Oui, sans engagement et sans frais. Vous pouvez annuler votre abonnement en un clic depuis votre espace client." },
     { q: "Les textes sont-ils vraiment uniques ?", a: "Oui, chaque génération est unique. L'IA crée un texte original basé sur les informations que vous fournissez." },
     { q: "Puis-je modifier les textes générés ?", a: "Absolument ! Les textes sont une base de travail que vous pouvez modifier librement avant de les publier." },
-    { q: "Domio fonctionne-t-il sur mobile ?", a: "Oui, Domio est accessible sur tous les appareils : ordinateur, tablette et smartphone." }
+    { q: "Copyimo fonctionne-t-il sur mobile ?", a: "Oui, Copyimo est accessible sur tous les appareils : ordinateur, tablette et smartphone." }
   ]
 
   const Header = () => (
@@ -89,7 +89,7 @@ export default function App() {
       <div onClick={() => setPage("home")} style={{ display: "flex", alignItems: "center", gap: "1rem", cursor: "pointer" }}>
         <div style={{ width: 38, height: 38, border: "1px solid rgba(212,189,150,0.5)", borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center", color: "#D4BD96", fontSize: 18 }}>⌂</div>
         <div>
-          <div style={{ color: "#D4BD96", fontSize: "1.15rem", letterSpacing: "0.15em", textTransform: "uppercase" }}>Domio</div>
+          <div style={{ color: "#D4BD96", fontSize: "1.15rem", letterSpacing: "0.15em", textTransform: "uppercase" }}>Copyimo</div>
           <div style={{ color: "rgba(212,189,150,0.5)", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase" }}>Rédaction Immobilière</div>
         </div>
       </div>
@@ -402,7 +402,7 @@ export default function App() {
 
       {/* FOOTER */}
       <div style={{ textAlign: "center", padding: "2rem", borderTop: "1px solid #E8DFCF", color: "#B8A88A", fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-        ◆ &nbsp; Domio &nbsp; ◆ &nbsp; Rédaction Immobilière par l'IA &nbsp; ◆ &nbsp; © 2026
+        ◆ &nbsp; Copyimo &nbsp; ◆ &nbsp; Rédaction Immobilière par l'IA &nbsp; ◆ &nbsp; © 2026
       </div>
     </div>
   )
