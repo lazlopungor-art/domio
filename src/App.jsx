@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react"
 import { translations } from "./translations"
+import Legal from "./Legal"
 
 export default function App() {
   const [lang, setLang] = useState("fr")
@@ -16,6 +17,7 @@ export default function App() {
   const [resultat, setResultat] = useState("")
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState("home")
+  const [showLegal, setShowLegal] = useState(false)
 
   const generer = async () => {
     if (!ville || !surface || !prix || !points) {
@@ -313,14 +315,8 @@ export default function App() {
               <div style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B7355", marginBottom: "1rem", borderBottom: "1px solid #E8DFCF", paddingBottom: "0.5rem" }}>◈ &nbsp; {t.votreContenu}</div>
               <div style={{ fontSize: "0.8rem", lineHeight: 1.8, color: "#2C2416" }}>
                 <strong>{lang === "fr" ? "Maison d'exception — Bordeaux Chartrons" : "Exceptional House — Bordeaux Chartrons"}</strong><br /><br />
-                {lang === "fr"
-                  ? "Nichée au cœur des Chartrons, cette élégante maison de 120 m² vous séduira par son caractère unique."
-                  : "Nestled in the heart of Chartrons, this elegant 120 m² house will captivate you with its unique character."
-                }<br /><br />
-                {lang === "fr"
-                  ? "Jardin privatif, cuisine rénovée, parquet ancien et luminosité exceptionnelle."
-                  : "Private garden, renovated kitchen, original parquet flooring and exceptional brightness."
-                }<br /><br />
+                {lang === "fr" ? "Nichée au cœur des Chartrons, cette élégante maison de 120 m² vous séduira par son caractère unique." : "Nestled in the heart of Chartrons, this elegant 120 m² house will captivate you with its unique character."}<br /><br />
+                {lang === "fr" ? "Jardin privatif, cuisine rénovée, parquet ancien et luminosité exceptionnelle." : "Private garden, renovated kitchen, original parquet flooring and exceptional brightness."}<br /><br />
                 <strong>{lang === "fr" ? "Prix : 395 000 €" : "Price: €395,000"}</strong>
               </div>
             </div>
@@ -419,8 +415,13 @@ export default function App() {
 
       {/* FOOTER */}
       <div style={{ textAlign: "center", padding: "1.5rem", borderTop: "1px solid #E8DFCF", color: "#B8A88A", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-        ◆ &nbsp; Copyimo &nbsp; ◆ &nbsp; {t.footer} &nbsp; ◆ &nbsp; © 2026
+        ◆ &nbsp; Copyimo &nbsp; ◆ &nbsp; {t.footer} &nbsp; ◆ &nbsp; © 2026 &nbsp;
+        <span onClick={() => setShowLegal(true)} style={{ cursor: "pointer", textDecoration: "underline", marginLeft: "0.5rem" }}>
+          {lang === "fr" ? "Mentions légales" : "Legal notice"}
+        </span>
       </div>
+
+      {showLegal && <Legal lang={lang} onClose={() => setShowLegal(false)} />}
     </div>
   )
 }
