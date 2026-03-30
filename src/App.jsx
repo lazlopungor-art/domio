@@ -299,11 +299,16 @@ export default function App() {
       <div style={{ background: "#2C2416", padding: "3.5rem 1.5rem", textAlign: "center" }}>
         <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(212,189,150,0.5)", marginBottom: "0.75rem" }}>◆ &nbsp; {t.apercuTag}</div>
         <h2 style={{ fontSize: "clamp(1.3rem, 4vw, 1.8rem)", fontWeight: "normal", color: "#FAF7F2", marginBottom: "2.5rem" }}>{t.apercuTitre}</h2>
-        <div style={{ maxWidth: 700, margin: "0 auto", background: "#FFFDF9", borderRadius: 4, border: "1px solid #E8DFCF", padding: "1.5rem", textAlign: "left", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", background: "#FFFDF9", borderRadius: 4, border: "1px solid #E8DFCF", padding: "1.5rem", textAlign: "left", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.5rem" }}>
             <div>
               <div style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B7355", marginBottom: "1rem", borderBottom: "1px solid #E8DFCF", paddingBottom: "0.5rem" }}>◈ &nbsp; {t.detailsBien}</div>
-              {[[t.typeBien, t.maison], [t.ville, "Bordeaux"], [t.surface, "120 m²"], [t.prix, "395 000 €"]].map(([label, val]) => (
+              {[
+                [t.typeBien, lang === "fr" ? "Villa" : "Villa"],
+                [t.ville, lang === "fr" ? "Saint-Tropez, Var" : "Saint-Tropez, French Riviera"],
+                [t.surface, "280 m²"],
+                [t.prix, "2 850 000 €"]
+              ].map(([label, val]) => (
                 <div key={label} style={{ marginBottom: "0.6rem" }}>
                   <div style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B7355" }}>{label}</div>
                   <div style={{ background: "#FAF7F2", border: "1px solid #E8DFCF", padding: "0.4rem 0.6rem", borderRadius: 2, fontSize: "0.82rem", color: "#2C2416", marginTop: 3 }}>{val}</div>
@@ -312,15 +317,37 @@ export default function App() {
               <div style={{ background: "#2C2416", color: "#D4BD96", padding: "0.6rem", borderRadius: 2, textAlign: "center", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", marginTop: "0.75rem" }}>✦ &nbsp; {t.generer}</div>
             </div>
             <div>
-              <div style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B7355", marginBottom: "1rem", borderBottom: "1px solid #E8DFCF", paddingBottom: "0.5rem" }}>◈ &nbsp; {t.votreContenu}</div>
-              <div style={{ fontSize: "0.8rem", lineHeight: 1.8, color: "#2C2416" }}>
-                <strong>{lang === "fr" ? "Maison d'exception — Bordeaux Chartrons" : "Exceptional House — Bordeaux Chartrons"}</strong><br /><br />
-                {lang === "fr" ? "Nichée au cœur des Chartrons, cette élégante maison de 120 m² vous séduira par son caractère unique." : "Nestled in the heart of Chartrons, this elegant 120 m² house will captivate you with its unique character."}<br /><br />
-                {lang === "fr" ? "Jardin privatif, cuisine rénovée, parquet ancien et luminosité exceptionnelle." : "Private garden, renovated kitchen, original parquet flooring and exceptional brightness."}<br /><br />
-                <strong>{lang === "fr" ? "Prix : 395 000 €" : "Price: €395,000"}</strong>
+              <div style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B7355", marginBottom: "1rem", borderBottom: "1px solid #E8DFCF", paddingBottom: "0.5rem" }}>◈ &nbsp; {lang === "fr" ? "Email généré" : "Generated email"}</div>
+              <div style={{ fontSize: "0.78rem", lineHeight: 1.9, color: "#2C2416" }}>
+                {lang === "fr" ? (
+                  <>
+                    <span style={{ color: "#8B7355", fontSize: "0.72rem" }}>Objet : Une villa d'exception vous attend à Saint-Tropez</span>
+                    <br /><br />
+                    Madame, Monsieur,<br /><br />
+                    J'ai le privilège de vous présenter en exclusivité une propriété rare sur la Côte d'Azur : une villa contemporaine de <strong>280 m²</strong>, nichée dans un écrin de verdure à deux pas des plages de Saint-Tropez.<br /><br />
+                    Depuis ses terrasses ensoleillées, vous profiterez d'une <strong>vue panoramique sur la mer</strong> à couper le souffle. La piscine à débordement, le jardin paysager et les espaces de vie généreux en font un bien d'exception, pensé pour le confort et le raffinement du quotidien.<br /><br />
+                    Cette propriété est proposée à <strong>2 850 000 €</strong>. Les biens de cette qualité se font rares — je reste à votre entière disposition pour organiser une visite privée à votre convenance.<br /><br />
+                    Avec mes cordiales salutations,<br />
+                    <span style={{ color: "#8B7355", fontStyle: "italic" }}>[Votre nom], Agent immobilier</span>
+                  </>
+                ) : (
+                  <>
+                    <span style={{ color: "#8B7355", fontSize: "0.72rem" }}>Subject: An exceptional villa awaits you in Saint-Tropez</span>
+                    <br /><br />
+                    Dear Sir/Madam,<br /><br />
+                    I have the privilege of presenting exclusively a rare property on the French Riviera: a contemporary villa of <strong>280 m²</strong>, nestled in lush greenery just steps from the beaches of Saint-Tropez.<br /><br />
+                    From its sun-drenched terraces, you will enjoy a breathtaking <strong>panoramic sea view</strong>. The infinity pool, landscaped garden and generous living spaces make this an exceptional property, designed for everyday comfort and refinement.<br /><br />
+                    This property is offered at <strong>€2,850,000</strong>. Properties of this quality are rare — I remain at your disposal to arrange a private viewing at your convenience.<br /><br />
+                    Yours sincerely,<br />
+                    <span style={{ color: "#8B7355", fontStyle: "italic" }}>[Your name], Real Estate Agent</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
+        </div>
+        <div style={{ color: "rgba(212,189,150,0.4)", fontSize: 10, marginTop: "1.5rem", letterSpacing: "0.1em" }}>
+          ✦ &nbsp; {lang === "fr" ? "Propulsé par l'IA" : "Powered by AI"} &nbsp; ✦
         </div>
       </div>
 
