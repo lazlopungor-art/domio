@@ -252,30 +252,47 @@ export default function App() {
     <div style={{ minHeight: "100vh", background: "#FAF7F2", fontFamily: "Georgia, serif" }}>
       <Header />
 
-      {/* HERO */}
-      <div style={{ background: "linear-gradient(180deg, #2C2416 0%, #3D3020 65%, #FAF7F2 100%)", padding: "3.5rem 1.5rem 5rem", textAlign: "center" }}>
-        <div style={{ color: "rgba(212,189,150,0.5)", fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "1.25rem" }}>✦ &nbsp; {t.tagline} &nbsp; ✦</div>
-        <h1 style={{ color: "#FAF7F2", fontSize: "clamp(1.6rem, 5vw, 2.8rem)", fontWeight: "normal", lineHeight: 1.2, marginBottom: "1.25rem" }}>
-          {t.heroTitre1}<br />{t.heroTitre2}{" "}
-          <span style={{ color: "#D4BD96", fontStyle: "italic" }}>{t.heroAccroche}</span>
-        </h1>
-        <p style={{ color: "rgba(250,247,242,0.6)", fontSize: "clamp(0.85rem, 2.5vw, 1rem)", marginBottom: "2rem", maxWidth: 500, margin: "0 auto 2rem" }}>
-          {t.heroDesc}
-        </p>
-        <SignUpButton mode="modal">
-          <button style={{ background: "#D4BD96", border: "none", color: "#2C2416", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 20px rgba(212,189,150,0.3)" }}>
-            ✦ &nbsp; {t.commencerGratuitement}
-          </button>
-        </SignUpButton>
-        <div style={{ color: "rgba(212,189,150,0.4)", fontSize: 11, marginTop: "1rem" }}>{t.sansCarteBank}</div>
-        <div style={{ display: "flex", justifyContent: "center", gap: "clamp(1rem, 4vw, 3rem)", marginTop: "2.5rem", flexWrap: "wrap" }}>
-          {[["10 sec", t.parAnnonce], ["4 formats", t.deContenu], ["3 tons", t.differents], ["100%", t.enFrancais]].map(([val, desc]) => (
-            <div key={val} style={{ textAlign: "center" }}>
-              <div style={{ color: "#D4BD96", fontSize: "clamp(1rem, 3vw, 1.3rem)" }}>{val}</div>
-              <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 3 }}>{desc}</div>
-            </div>
-          ))}
+      {/* HERO AVEC FONDU SUBTIL EN BAS */}
+      <div style={{ position: "relative" }}>
+        <div style={{
+          backgroundImage: "linear-gradient(rgba(44,36,22,0.6), rgba(44,36,22,0.6)), url('/villa.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          padding: "3.5rem 1.5rem 5rem",
+          textAlign: "center"
+        }}>
+          <div style={{ color: "rgba(212,189,150,0.9)", fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "1.25rem" }}>✦ &nbsp; {t.tagline} &nbsp; ✦</div>
+          <h1 style={{ color: "#FAF7F2", fontSize: "clamp(1.6rem, 5vw, 2.8rem)", fontWeight: "normal", lineHeight: 1.2, marginBottom: "1.25rem", textShadow: "0 2px 15px rgba(0,0,0,0.5)" }}>
+            {t.heroTitre1}<br />{t.heroTitre2}{" "}
+            <span style={{ color: "#D4BD96", fontStyle: "italic" }}>{t.heroAccroche}</span>
+          </h1>
+          <p style={{ color: "rgba(250,247,242,0.9)", fontSize: "clamp(0.85rem, 2.5vw, 1rem)", marginBottom: "2rem", maxWidth: 500, margin: "0 auto 2rem", textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}>
+            {t.heroDesc}
+          </p>
+          <SignUpButton mode="modal">
+            <button style={{ background: "#D4BD96", border: "none", color: "#2C2416", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 20px rgba(212,189,150,0.4)" }}>
+              ✦ &nbsp; {t.commencerGratuitement}
+            </button>
+          </SignUpButton>
+          <div style={{ color: "rgba(212,189,150,0.7)", fontSize: 11, marginTop: "1rem" }}>{t.sansCarteBank}</div>
+          <div style={{ display: "flex", justifyContent: "center", gap: "clamp(1rem, 4vw, 3rem)", marginTop: "2.5rem", flexWrap: "wrap" }}>
+            {[["10 sec", t.parAnnonce], ["4 formats", t.deContenu], ["3 tons", t.differents], ["100%", t.enFrancais]].map(([val, desc]) => (
+              <div key={val} style={{ textAlign: "center" }}>
+                <div style={{ color: "#D4BD96", fontSize: "clamp(1rem, 3vw, 1.3rem)", textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>{val}</div>
+                <div style={{ color: "rgba(255,255,255,0.8)", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 3 }}>{desc}</div>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* FONDU SUBTIL EN BAS — juste 40px */}
+        <div style={{
+          position: "absolute",
+          bottom: 0, left: 0, right: 0,
+          height: "40px",
+          background: "linear-gradient(to bottom, transparent, #FAF7F2)",
+          pointerEvents: "none"
+        }} />
       </div>
 
       {/* FEATURES */}
@@ -325,8 +342,8 @@ export default function App() {
                     <br /><br />
                     Madame, Monsieur,<br /><br />
                     J'ai le privilège de vous présenter en exclusivité une propriété rare sur la Côte d'Azur : une villa contemporaine de <strong>280 m²</strong>, nichée dans un écrin de verdure à deux pas des plages de Saint-Tropez.<br /><br />
-                    Depuis ses terrasses ensoleillées, vous profiterez d'une <strong>vue panoramique sur la mer</strong> à couper le souffle. La piscine à débordement, le jardin paysager et les espaces de vie généreux en font un bien d'exception, pensé pour le confort et le raffinement du quotidien.<br /><br />
-                    Cette propriété est proposée à <strong>2 850 000 €</strong>. Les biens de cette qualité se font rares — je reste à votre entière disposition pour organiser une visite privée à votre convenance.<br /><br />
+                    Depuis ses terrasses ensoleillées, vous profiterez d'une <strong>vue panoramique sur la mer</strong> à couper le souffle. La piscine à débordement, le jardin paysager et les espaces de vie généreux en font un bien d'exception.<br /><br />
+                    Cette propriété est proposée à <strong>2 850 000 €</strong>. Je reste à votre disposition pour organiser une visite privée.<br /><br />
                     Avec mes cordiales salutations,<br />
                     <span style={{ color: "#8B7355", fontStyle: "italic" }}>[Votre nom], Agent immobilier</span>
                   </>
@@ -336,8 +353,8 @@ export default function App() {
                     <br /><br />
                     Dear Sir/Madam,<br /><br />
                     I have the privilege of presenting exclusively a rare property on the French Riviera: a contemporary villa of <strong>280 m²</strong>, nestled in lush greenery just steps from the beaches of Saint-Tropez.<br /><br />
-                    From its sun-drenched terraces, you will enjoy a breathtaking <strong>panoramic sea view</strong>. The infinity pool, landscaped garden and generous living spaces make this an exceptional property, designed for everyday comfort and refinement.<br /><br />
-                    This property is offered at <strong>€2,850,000</strong>. Properties of this quality are rare — I remain at your disposal to arrange a private viewing at your convenience.<br /><br />
+                    From its sun-drenched terraces, you will enjoy a breathtaking <strong>panoramic sea view</strong>. The infinity pool, landscaped garden and generous living spaces make this an exceptional property.<br /><br />
+                    This property is offered at <strong>€2,850,000</strong>. I remain at your disposal to arrange a private viewing.<br /><br />
                     Yours sincerely,<br />
                     <span style={{ color: "#8B7355", fontStyle: "italic" }}>[Your name], Real Estate Agent</span>
                   </>
