@@ -1,131 +1,122 @@
 export default function Legal({ lang, onClose }) {
-    const isFr = lang === "fr"
-  
-    return (
+  const isFr = lang === "fr"
+
+  return (
+    <div style={{
+      position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+      background: "rgba(44,36,22,0.8)", zIndex: 1000,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      padding: "1rem"
+    }} onClick={onClose}>
       <div style={{
-        position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-        background: "rgba(44,36,22,0.8)", zIndex: 1000,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "1rem"
-      }} onClick={onClose}>
-        <div style={{
-          background: "#FFFDF9", borderRadius: 4, border: "1px solid #E8DFCF",
-          maxWidth: 700, width: "100%", maxHeight: "85vh",
-          overflowY: "auto", padding: "2rem",
-          fontFamily: "Georgia, serif"
-        }} onClick={e => e.stopPropagation()}>
-  
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem", borderBottom: "1px solid #E8DFCF", paddingBottom: "1rem" }}>
-            <div>
-              <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.5rem" }}>◆ Copyimo</div>
-              <h2 style={{ fontSize: "1.3rem", fontWeight: "normal", color: "#2C2416" }}>
-                {isFr ? "Mentions légales & CGU" : "Legal Notice & Terms of Service"}
-              </h2>
-            </div>
-            <button onClick={onClose} style={{ background: "none", border: "1px solid #E8DFCF", borderRadius: 2, padding: "0.5rem 1rem", cursor: "pointer", color: "#8B7355", fontSize: 12, fontFamily: "Georgia, serif" }}>
-              {isFr ? "Fermer" : "Close"}
-            </button>
+        background: "#FFFDF9", borderRadius: 4, border: "1px solid #E8DFCF",
+        maxWidth: 700, width: "100%", maxHeight: "85vh",
+        overflowY: "auto", padding: "2rem",
+        fontFamily: "Georgia, serif"
+      }} onClick={e => e.stopPropagation()}>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem", borderBottom: "1px solid #E8DFCF", paddingBottom: "1rem" }}>
+          <div>
+            <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.5rem" }}>◆ Copyimo</div>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: "normal", color: "#2C2416" }}>
+              {isFr ? "Mentions légales & CGU" : "Legal Notice & Terms of Service"}
+            </h2>
           </div>
-  
-          {/* MENTIONS LÉGALES */}
-          <section style={{ marginBottom: "2rem" }}>
-            <h3 style={h3Style}>{isFr ? "1. Mentions légales" : "1. Legal Notice"}</h3>
-            <p style={pStyle}>
-              {isFr
-                ? "Copyimo est édité par [Votre Nom], micro-entrepreneur. SIRET : [À compléter]. Adresse : [Votre adresse]. Email : contact@copyimo.com"
-                : "Copyimo is published by [Your Name], sole trader. Registration number: [To be completed]. Address: [Your address]. Email: contact@copyimo.com"
-              }
-            </p>
-            <p style={pStyle}>
-              {isFr
-                ? "Hébergement : Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, États-Unis."
-                : "Hosting: Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, United States."
-              }
-            </p>
-          </section>
-  
-          {/* CGU */}
-          <section style={{ marginBottom: "2rem" }}>
-            <h3 style={h3Style}>{isFr ? "2. Conditions Générales d'Utilisation" : "2. Terms of Service"}</h3>
-            <p style={pStyle}>
-              {isFr
-                ? "En utilisant Copyimo, vous acceptez les présentes conditions d'utilisation. Copyimo est un service de génération de contenu immobilier par intelligence artificielle."
-                : "By using Copyimo, you agree to these terms of service. Copyimo is an AI-powered real estate content generation service."
-              }
-            </p>
-  
-            <h4 style={h4Style}>{isFr ? "Accès au service" : "Service access"}</h4>
-            <p style={pStyle}>
-              {isFr
-                ? "Copyimo propose un essai gratuit de 14 jours sans carte bancaire, suivi d'un abonnement mensuel. Vous pouvez annuler à tout moment depuis votre espace client."
-                : "Copyimo offers a 14-day free trial with no credit card required, followed by a monthly subscription. You can cancel at any time from your account."
-              }
-            </p>
-  
-            <h4 style={h4Style}>{isFr ? "Utilisation du service" : "Use of service"}</h4>
-            <p style={pStyle}>
-              {isFr
-                ? "Les textes générés par Copyimo sont fournis à titre indicatif. L'utilisateur est responsable de la vérification et de l'utilisation des contenus générés. Copyimo ne garantit pas l'exactitude ou l'exhaustivité des textes produits par l'IA."
-                : "Texts generated by Copyimo are provided for informational purposes. The user is responsible for verifying and using the generated content. Copyimo does not guarantee the accuracy or completeness of AI-generated texts."
-              }
-            </p>
-  
-            <h4 style={h4Style}>{isFr ? "Propriété intellectuelle" : "Intellectual property"}</h4>
-            <p style={pStyle}>
-              {isFr
-                ? "Les contenus générés par Copyimo appartiennent à l'utilisateur. La marque Copyimo, le logo et l'interface sont la propriété exclusive de l'éditeur."
-                : "Content generated by Copyimo belongs to the user. The Copyimo brand, logo and interface are the exclusive property of the publisher."
-              }
-            </p>
-          </section>
-  
-          {/* CONFIDENTIALITÉ */}
-          <section style={{ marginBottom: "2rem" }}>
-            <h3 style={h3Style}>{isFr ? "3. Politique de confidentialité" : "3. Privacy Policy"}</h3>
-            <p style={pStyle}>
-              {isFr
-                ? "Copyimo collecte uniquement les données nécessaires au fonctionnement du service : adresse email, données de connexion. Ces données ne sont jamais vendues à des tiers."
-                : "Copyimo only collects data necessary for the service to function: email address, login data. This data is never sold to third parties."
-              }
-            </p>
-            <p style={pStyle}>
-              {isFr
-                ? "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits, contactez-nous à contact@copyimo.com"
-                : "In accordance with GDPR, you have the right to access, rectify and delete your data. To exercise these rights, contact us at contact@copyimo.com"
-              }
-            </p>
-          </section>
-  
-          {/* PAIEMENTS */}
-          <section style={{ marginBottom: "2rem" }}>
-            <h3 style={h3Style}>{isFr ? "4. Paiements et remboursements" : "4. Payments and refunds"}</h3>
-            <p style={pStyle}>
-              {isFr
-                ? "Les paiements sont sécurisés par Stripe. Les abonnements sont facturés mensuellement. Aucun remboursement n'est effectué pour les périodes entamées, sauf obligation légale."
-                : "Payments are secured by Stripe. Subscriptions are billed monthly. No refunds are made for periods already started, except as required by law."
-              }
-            </p>
-          </section>
-  
-          {/* DROIT APPLICABLE */}
-          <section>
-            <h3 style={h3Style}>{isFr ? "5. Droit applicable" : "5. Applicable law"}</h3>
-            <p style={pStyle}>
-              {isFr
-                ? "Les présentes conditions sont soumises au droit français. Tout litige sera soumis aux tribunaux compétents français."
-                : "These terms are governed by French law. Any dispute will be submitted to the competent French courts."
-              }
-            </p>
-            <p style={{ ...pStyle, color: "#B8A88A", fontSize: "0.78rem", marginTop: "1.5rem" }}>
-              {isFr ? "Dernière mise à jour : Mars 2026" : "Last updated: March 2026"}
-            </p>
-          </section>
+          <button onClick={onClose} style={{ background: "none", border: "1px solid #E8DFCF", borderRadius: 2, padding: "0.5rem 1rem", cursor: "pointer", color: "#8B7355", fontSize: 12, fontFamily: "Georgia, serif" }}>
+            {isFr ? "Fermer" : "Close"}
+          </button>
         </div>
+
+        <section style={{ marginBottom: "2rem" }}>
+          <h3 style={h3Style}>{isFr ? "1. Mentions légales" : "1. Legal Notice"}</h3>
+          <p style={pStyle}>
+            {isFr
+              ? "Copyimo est édité par Poupeney Florian, micro-entrepreneur. SIRET : 103 081 147 00011. Email : contact@copyimo.com"
+              : "Copyimo is published by Poupeney Florian, sole trader. Registration number: 103 081 147 00011. Email: contact@copyimo.com"
+            }
+          </p>
+          <p style={pStyle}>
+            {isFr
+              ? "Hébergement : Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, États-Unis."
+              : "Hosting: Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, United States."
+            }
+          </p>
+        </section>
+
+        <section style={{ marginBottom: "2rem" }}>
+          <h3 style={h3Style}>{isFr ? "2. Conditions Générales d'Utilisation" : "2. Terms of Service"}</h3>
+          <p style={pStyle}>
+            {isFr
+              ? "En utilisant Copyimo, vous acceptez les présentes conditions d'utilisation. Copyimo est un service de génération de contenu immobilier par intelligence artificielle."
+              : "By using Copyimo, you agree to these terms of service. Copyimo is an AI-powered real estate content generation service."
+            }
+          </p>
+          <h4 style={h4Style}>{isFr ? "Accès au service" : "Service access"}</h4>
+          <p style={pStyle}>
+            {isFr
+              ? "Copyimo propose un essai gratuit de 14 jours sans carte bancaire, suivi d'un abonnement mensuel. Vous pouvez annuler à tout moment depuis votre espace client."
+              : "Copyimo offers a 14-day free trial with no credit card required, followed by a monthly subscription. You can cancel at any time from your account."
+            }
+          </p>
+          <h4 style={h4Style}>{isFr ? "Utilisation du service" : "Use of service"}</h4>
+          <p style={pStyle}>
+            {isFr
+              ? "Les textes générés par Copyimo sont fournis à titre indicatif. L'utilisateur est responsable de la vérification et de l'utilisation des contenus générés. Copyimo ne garantit pas l'exactitude ou l'exhaustivité des textes produits par l'IA."
+              : "Texts generated by Copyimo are provided for informational purposes. The user is responsible for verifying and using the generated content. Copyimo does not guarantee the accuracy or completeness of AI-generated texts."
+            }
+          </p>
+          <h4 style={h4Style}>{isFr ? "Propriété intellectuelle" : "Intellectual property"}</h4>
+          <p style={pStyle}>
+            {isFr
+              ? "Les contenus générés par Copyimo appartiennent à l'utilisateur. La marque Copyimo, le logo et l'interface sont la propriété exclusive de Poupeney Florian."
+              : "Content generated by Copyimo belongs to the user. The Copyimo brand, logo and interface are the exclusive property of Poupeney Florian."
+            }
+          </p>
+        </section>
+
+        <section style={{ marginBottom: "2rem" }}>
+          <h3 style={h3Style}>{isFr ? "3. Politique de confidentialité" : "3. Privacy Policy"}</h3>
+          <p style={pStyle}>
+            {isFr
+              ? "Copyimo collecte uniquement les données nécessaires au fonctionnement du service : adresse email, données de connexion. Ces données ne sont jamais vendues à des tiers."
+              : "Copyimo only collects data necessary for the service to function: email address, login data. This data is never sold to third parties."
+            }
+          </p>
+          <p style={pStyle}>
+            {isFr
+              ? "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits, contactez-nous à contact@copyimo.com"
+              : "In accordance with GDPR, you have the right to access, rectify and delete your data. To exercise these rights, contact us at contact@copyimo.com"
+            }
+          </p>
+        </section>
+
+        <section style={{ marginBottom: "2rem" }}>
+          <h3 style={h3Style}>{isFr ? "4. Paiements et remboursements" : "4. Payments and refunds"}</h3>
+          <p style={pStyle}>
+            {isFr
+              ? "Les paiements sont sécurisés par Stripe. Les abonnements sont facturés mensuellement. Aucun remboursement n'est effectué pour les périodes entamées, sauf obligation légale."
+              : "Payments are secured by Stripe. Subscriptions are billed monthly. No refunds are made for periods already started, except as required by law."
+            }
+          </p>
+        </section>
+
+        <section>
+          <h3 style={h3Style}>{isFr ? "5. Droit applicable" : "5. Applicable law"}</h3>
+          <p style={pStyle}>
+            {isFr
+              ? "Les présentes conditions sont soumises au droit français. Tout litige sera soumis aux tribunaux compétents français."
+              : "These terms are governed by French law. Any dispute will be submitted to the competent French courts."
+            }
+          </p>
+          <p style={{ ...pStyle, color: "#B8A88A", fontSize: "0.78rem", marginTop: "1.5rem" }}>
+            {isFr ? "Dernière mise à jour : Avril 2026" : "Last updated: April 2026"}
+          </p>
+        </section>
       </div>
-    )
-  }
-  
-  const h3Style = { fontSize: "1rem", fontWeight: "bold", color: "#2C2416", marginBottom: "0.75rem", marginTop: "1.25rem", letterSpacing: "0.02em" }
-  const h4Style = { fontSize: "0.9rem", fontWeight: "bold", color: "#8B7355", marginBottom: "0.5rem", marginTop: "1rem" }
-  const pStyle = { fontSize: "0.85rem", lineHeight: 1.8, color: "#5A4A3A", marginBottom: "0.75rem" }
-  
+    </div>
+  )
+}
+
+const h3Style = { fontSize: "1rem", fontWeight: "bold", color: "#2C2416", marginBottom: "0.75rem", marginTop: "1.25rem", letterSpacing: "0.02em" }
+const h4Style = { fontSize: "0.9rem", fontWeight: "bold", color: "#8B7355", marginBottom: "0.5rem", marginTop: "1rem" }
+const pStyle = { fontSize: "0.85rem", lineHeight: 1.8, color: "#5A4A3A", marginBottom: "0.75rem" }
