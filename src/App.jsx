@@ -9,7 +9,6 @@ const STRIPE_PRO = import.meta.env.VITE_STRIPE_PRO
 export default function App() {
   const [lang, setLang] = useState("fr")
   const t = translations[lang]
-
   const [typeBien, setTypeBien] = useState("maison")
   const [ville, setVille] = useState("")
   const [surface, setSurface] = useState("")
@@ -259,10 +258,8 @@ export default function App() {
       <div style={{ position: "relative" }}>
         <div style={{
           backgroundImage: "linear-gradient(rgba(44,36,22,0.6), rgba(44,36,22,0.6)), url('/villa.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          padding: "3.5rem 1.5rem 5rem",
-          textAlign: "center"
+          backgroundSize: "cover", backgroundPosition: "center",
+          padding: "3.5rem 1.5rem 5rem", textAlign: "center"
         }}>
           <div style={{ color: "rgba(212,189,150,0.9)", fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "1.25rem" }}>✦ &nbsp; {t.tagline} &nbsp; ✦</div>
           <h1 style={{ color: "#FAF7F2", fontSize: "clamp(1.6rem, 5vw, 2.8rem)", fontWeight: "normal", lineHeight: 1.2, marginBottom: "1.25rem", textShadow: "0 2px 15px rgba(0,0,0,0.5)" }}>
@@ -287,12 +284,62 @@ export default function App() {
             ))}
           </div>
         </div>
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0,
-          height: "40px",
-          background: "linear-gradient(to bottom, transparent, #FAF7F2)",
-          pointerEvents: "none"
-        }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "40px", background: "linear-gradient(to bottom, transparent, #FAF7F2)", pointerEvents: "none" }} />
+      </div>
+
+      {/* STORYTELLING INTRO */}
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "4rem 1.5rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.75rem" }}>◆ &nbsp; {lang === "fr" ? "Une histoire familière" : "A familiar story"}</div>
+          <h2 style={{ fontSize: "clamp(1.3rem, 4vw, 1.8rem)", fontWeight: "normal", color: "#2C2416" }}>
+            {lang === "fr" ? "Vous reconnaissez-vous ?" : "Does this sound familiar?"}
+          </h2>
+        </div>
+        <div style={{ background: "#FFFDF9", border: "1px solid #E8DFCF", borderRadius: 2, padding: "2.5rem", boxShadow: "0 4px 20px rgba(44,36,22,0.08)", position: "relative" }}>
+          <div style={{ position: "absolute", top: "1.5rem", left: "1.5rem", color: "#D4BD96", fontSize: "3rem", opacity: 0.25, fontFamily: "Georgia, serif", lineHeight: 1 }}>❝</div>
+          <div style={{ fontSize: "1rem", lineHeight: 2, color: "#2C2416", fontStyle: "italic", paddingLeft: "1rem" }}>
+            {lang === "fr" ? (
+              <>
+                Il est <strong style={{ fontStyle: "normal" }}>22h</strong>. Vous venez de rentrer d'une longue journée de visites. Sur votre bureau, <strong style={{ fontStyle: "normal" }}>3 nouveaux mandats</strong> vous attendent.<br /><br />
+                Chacun nécessite une annonce pour SeLoger, un post LinkedIn, un email pour vos clients en recherche...<br /><br />
+                Vous ouvrez votre ordinateur. La page blanche vous fixe. Vous cherchez vos mots. <strong style={{ fontStyle: "normal" }}>Une heure passe.</strong><br /><br />
+                Et si tout cela pouvait prendre <strong style={{ fontStyle: "normal" }}>30 secondes</strong> ?
+              </>
+            ) : (
+              <>
+                It's <strong style={{ fontStyle: "normal" }}>10pm</strong>. You've just returned from a long day of property visits. On your desk, <strong style={{ fontStyle: "normal" }}>3 new mandates</strong> are waiting.<br /><br />
+                Each one needs a listing for the portals, a LinkedIn post, an email for your searching clients...<br /><br />
+                You open your computer. The blank page stares back at you. You search for words. <strong style={{ fontStyle: "normal" }}>An hour passes.</strong><br /><br />
+                What if all of this could take <strong style={{ fontStyle: "normal" }}>30 seconds</strong>?
+              </>
+            )}
+          </div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "1rem", marginTop: "2rem" }}>
+          {(lang === "fr" ? [
+            { icon: "⌂", text: "Vous rentrez chez vous" },
+            { icon: "✦", text: "Vous ouvrez Copyimo" },
+            { icon: "◈", text: "30 secondes" },
+            { icon: "❝", text: "Tout est rédigé" }
+          ] : [
+            { icon: "⌂", text: "You get home" },
+            { icon: "✦", text: "You open Copyimo" },
+            { icon: "◈", text: "30 seconds" },
+            { icon: "❝", text: "Everything is written" }
+          ]).map((step, i) => (
+            <div key={i} style={{ background: "#FFFDF9", border: "1px solid #E8DFCF", borderRadius: 2, padding: "1.25rem", textAlign: "center", boxShadow: "0 2px 8px rgba(44,36,22,0.04)" }}>
+              <div style={{ color: "#D4BD96", fontSize: "1.5rem", marginBottom: "0.5rem" }}>{step.icon}</div>
+              <div style={{ color: "#2C2416", fontSize: "0.82rem", fontStyle: "italic" }}>{step.text}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
+          <SignUpButton mode="modal">
+            <button style={{ background: "#2C2416", border: "none", color: "#D4BD96", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
+              ✦ &nbsp; {t.commencerGratuitement}
+            </button>
+          </SignUpButton>
+        </div>
       </div>
 
       {/* FEATURES */}
@@ -321,7 +368,7 @@ export default function App() {
             <div>
               <div style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B7355", marginBottom: "1rem", borderBottom: "1px solid #E8DFCF", paddingBottom: "0.5rem" }}>◈ &nbsp; {t.detailsBien}</div>
               {[
-                [t.typeBien, lang === "fr" ? "Villa" : "Villa"],
+                [t.typeBien, "Villa"],
                 [t.ville, lang === "fr" ? "Saint-Tropez, Var" : "Saint-Tropez, French Riviera"],
                 [t.surface, "280 m²"],
                 [t.prix, "2 850 000 €"]
@@ -395,8 +442,6 @@ export default function App() {
           <h2 style={{ fontSize: "clamp(1.3rem, 4vw, 1.8rem)", fontWeight: "normal", color: "#2C2416" }}>{t.pricingTitre}</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1rem", maxWidth: 700, margin: "0 auto" }}>
-
-          {/* STARTER */}
           <div style={{ background: "#FFFDF9", border: "1px solid #E8DFCF", borderRadius: 2, padding: "1.75rem", boxShadow: "0 2px 12px rgba(44,36,22,0.06)" }}>
             <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.75rem" }}>Starter</div>
             <div style={{ fontSize: "2.2rem", color: "#2C2416", marginBottom: "0.2rem" }}>19€</div>
@@ -406,14 +451,10 @@ export default function App() {
                 <span style={{ color: "#8B7355", flexShrink: 0 }}>✓</span> {f}
               </div>
             ))}
-            <button
-              onClick={() => window.open(STRIPE_STARTER, '_blank')}
-              style={{ width: "100%", padding: "0.75rem", background: "transparent", border: "1px solid #2C2416", color: "#2C2416", borderRadius: 2, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", cursor: "pointer", marginTop: "1rem" }}>
+            <button onClick={() => window.open(STRIPE_STARTER, '_blank')} style={{ width: "100%", padding: "0.75rem", background: "transparent", border: "1px solid #2C2416", color: "#2C2416", borderRadius: 2, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", cursor: "pointer", marginTop: "1rem" }}>
               {t.commencer}
             </button>
           </div>
-
-          {/* PRO */}
           <div style={{ background: "#2C2416", border: "1px solid #2C2416", borderRadius: 2, padding: "1.75rem", boxShadow: "0 8px 30px rgba(44,36,22,0.2)", position: "relative" }}>
             <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: "#D4BD96", color: "#2C2416", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", padding: "3px 12px", borderRadius: 20, fontWeight: "bold", whiteSpace: "nowrap" }}>{t.recommande}</div>
             <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(212,189,150,0.6)", marginBottom: "0.75rem" }}>Pro</div>
@@ -424,9 +465,7 @@ export default function App() {
                 <span style={{ color: "#D4BD96", flexShrink: 0 }}>✓</span> {f}
               </div>
             ))}
-            <button
-              onClick={() => window.open(STRIPE_PRO, '_blank')}
-              style={{ width: "100%", padding: "0.75rem", background: "#D4BD96", border: "none", color: "#2C2416", borderRadius: 2, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer", marginTop: "1rem" }}>
+            <button onClick={() => window.open(STRIPE_PRO, '_blank')} style={{ width: "100%", padding: "0.75rem", background: "#D4BD96", border: "none", color: "#2C2416", borderRadius: 2, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer", marginTop: "1rem" }}>
               ✦ &nbsp; {t.commencer}
             </button>
           </div>
@@ -454,11 +493,62 @@ export default function App() {
           {t.ctaTitre1} <span style={{ color: "#D4BD96", fontStyle: "italic" }}>{t.ctaTitre2}</span>
         </h2>
         <p style={{ color: "rgba(250,247,242,0.5)", marginBottom: "1.75rem", fontSize: "0.88rem" }}>{t.ctaDesc}</p>
-        <button
-          onClick={() => window.open(STRIPE_PRO, '_blank')}
-          style={{ background: "#D4BD96", border: "none", color: "#2C2416", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
+        <button onClick={() => window.open(STRIPE_PRO, '_blank')} style={{ background: "#D4BD96", border: "none", color: "#2C2416", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
           ✦ &nbsp; {t.commencerGratuitement}
         </button>
+      </div>
+
+      {/* QUI SOMMES NOUS */}
+      <div style={{ background: "#FAF7F2", padding: "4rem 1.5rem" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.75rem" }}>◆ &nbsp; {lang === "fr" ? "Notre histoire" : "Our story"}</div>
+            <h2 style={{ fontSize: "clamp(1.3rem, 4vw, 1.8rem)", fontWeight: "normal", color: "#2C2416" }}>
+              {lang === "fr" ? "Qui sommes-nous ?" : "Who are we?"}
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", alignItems: "center" }}>
+            <div>
+              <div style={{ width: 80, height: 80, background: "#2C2416", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.5rem" }}>
+                <span style={{ color: "#D4BD96", fontSize: "2rem" }}>⌂</span>
+              </div>
+              <p style={{ fontSize: "0.95rem", lineHeight: 2, color: "#2C2416", marginBottom: "1rem" }}>
+                {lang === "fr"
+                  ? "Copyimo est né d'une double passion : la technologie et l'immobilier. En observant le quotidien des professionnels de l'immobilier, nous avons réalisé qu'une tâche revenait sans cesse : rédiger."
+                  : "Copyimo was born from a dual passion: technology and real estate. By observing the daily lives of real estate professionals, we realized that one task kept coming up: writing."
+                }
+              </p>
+              <p style={{ fontSize: "0.95rem", lineHeight: 2, color: "#2C2416", marginBottom: "1rem" }}>
+                {lang === "fr"
+                  ? "Des annonces, des posts, des emails... Des heures précieuses perdues chaque semaine sur des tâches répétitives, au détriment de ce qui compte vraiment : accompagner vos clients et développer votre activité."
+                  : "Listings, posts, emails... Precious hours lost each week on repetitive tasks, at the expense of what really matters: accompanying your clients and growing your business."
+                }
+              </p>
+              <p style={{ fontSize: "0.95rem", lineHeight: 2, color: "#2C2416" }}>
+                {lang === "fr"
+                  ? "Nous avons créé Copyimo pour vous rendre ce temps. Simple, rapide, élégant — à l'image des professionnels qui l'utilisent."
+                  : "We created Copyimo to give you back this time. Simple, fast, elegant — just like the professionals who use it."
+                }
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {(lang === "fr" ? [
+                { icon: "◈", titre: "Notre mission", desc: "Libérer les agents immobiliers des tâches rédactionnelles pour qu'ils se concentrent sur leur cœur de métier." },
+                { icon: "◈", titre: "Notre technologie", desc: "Les IA les plus avancées au service de la rédaction immobilière professionnelle en français." },
+                { icon: "◈", titre: "Notre engagement", desc: "Un outil qui évolue avec vos besoins. Vos retours construisent Copyimo de demain." }
+              ] : [
+                { icon: "◈", titre: "Our mission", desc: "Free real estate agents from writing tasks so they can focus on their core business." },
+                { icon: "◈", titre: "Our technology", desc: "The most advanced AI for professional real estate writing." },
+                { icon: "◈", titre: "Our commitment", desc: "A tool that evolves with your needs. Your feedback builds tomorrow's Copyimo." }
+              ]).map((item, i) => (
+                <div key={i} style={{ background: "#FFFDF9", border: "1px solid #E8DFCF", borderRadius: 2, padding: "1.25rem", boxShadow: "0 2px 8px rgba(44,36,22,0.04)" }}>
+                  <div style={{ color: "#8B7355", fontSize: 14, marginBottom: "0.4rem" }}>{item.icon} &nbsp; <strong style={{ color: "#2C2416", fontSize: "0.88rem" }}>{item.titre}</strong></div>
+                  <div style={{ color: "#8B7355", fontSize: "0.82rem", lineHeight: 1.7 }}>{item.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* FOOTER */}
