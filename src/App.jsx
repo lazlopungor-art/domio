@@ -557,6 +557,10 @@ export default function App() {
         <span onClick={() => setShowLegal(true)} style={{ cursor: "pointer", textDecoration: "underline", marginLeft: "0.5rem" }}>
           {lang === "fr" ? "Mentions légales" : "Legal notice"}
         </span>
+        &nbsp; ◆ &nbsp;
+        <a href="mailto:contact@copyimo.com" style={{ color: "#B8A88A", textDecoration: "underline" }}>
+          {lang === "fr" ? "Nous contacter" : "Contact us"}
+        </a>
       </div>
 
       {showLegal && <Legal lang={lang} onClose={() => setShowLegal(false)} />}
