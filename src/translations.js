@@ -108,7 +108,7 @@ export const translations = {
     villePlaceholder: "Paris...",
     atoursPlaceholder: "Jardin, cuisine rénovée, lumineux...",
     promptTemplate: (typeContenu, ton, typeBien, ville, surface, prix, points) =>
-      `Tu es un expert en immobilier français haut de gamme. Génère un ${typeContenu} avec un ton ${ton} pour ce bien : Type : ${typeBien}, Ville : ${ville}, Surface : ${surface} m², Prix : ${prix} €, Points forts : ${points}. Génère uniquement le contenu, sans commentaires.`,
+      `Tu es un expert en immobilier français haut de gamme. Génère un ${typeContenu} avec un ton ${ton} pour ce bien : Type : ${typeBien}, Ville : ${ville}, Surface : ${surface} m², Prix : ${prix} €, Points forts : ${points}. Génère uniquement le contenu en FRANÇAIS, sans commentaires.`,
     remplirChamps: "Merci de remplir tous les champs !",
     vosAnnonces: "Vos annonces,",
     redigeesEnUnInstant: "rédigées en un instant",
@@ -223,7 +223,7 @@ export const translations = {
     villePlaceholder: "London...",
     atoursPlaceholder: "Garden, renovated kitchen, bright...",
     promptTemplate: (typeContenu, ton, typeBien, ville, surface, prix, points) =>
-      `You are a high-end real estate expert. Generate a ${typeContenu} with a ${ton} tone for this property: Type: ${typeBien}, City: ${ville}, Area: ${surface} m², Price: ${prix} €, Highlights: ${points}. Generate only the content, no comments.`,
+      `You are a high-end real estate expert. Generate a ${typeContenu} with a ${ton} tone for this property: Type: ${typeBien}, City: ${ville}, Area: ${surface} m², Price: ${prix} €, Highlights: ${points}. Generate only the content in ENGLISH, no comments.`,
     remplirChamps: "Please fill in all fields!",
     vosAnnonces: "Your listings,",
     redigeesEnUnInstant: "written in an instant",
