@@ -13,7 +13,7 @@ export const translations = {
     heroAccroche: "10 secondes",
     heroDesc: "L'IA génère pour vous annonces, posts LinkedIn, captions Instagram et emails clients.",
     commencerGratuitement: "Commencer gratuitement",
-    sansCarteBank: "14 jours gratuits · Sans carte bancaire",
+    sansCarteBank: "30 jours gratuits · Sans carte bancaire",
 
     // STATS
     parAnnonce: "Par annonce",
@@ -59,7 +59,7 @@ export const translations = {
     faqTag: "FAQ",
     faqTitre: "Questions fréquentes",
     faqs: [
-      { q: "Comment fonctionne l'essai gratuit ?", a: "Vous avez accès à toutes les fonctionnalités pendant 14 jours, sans carte bancaire. À la fin de l'essai, vous choisissez votre plan." },
+      { q: "Comment fonctionne l'essai gratuit ?", a: "Vous avez accès à toutes les fonctionnalités pendant 30 jours, sans carte bancaire. À la fin de l'essai, vous choisissez votre plan." },
       { q: "Puis-je annuler à tout moment ?", a: "Oui, sans engagement et sans frais. Vous pouvez annuler votre abonnement en un clic depuis votre espace client." },
       { q: "Les textes sont-ils vraiment uniques ?", a: "Oui, chaque génération est unique. L'IA crée un texte original basé sur les informations que vous fournissez." },
       { q: "Puis-je modifier les textes générés ?", a: "Absolument ! Les textes sont une base de travail que vous pouvez modifier librement avant de les publier." },
@@ -70,7 +70,7 @@ export const translations = {
     ctaTag: "Prêt à commencer ?",
     ctaTitre1: "Rejoignez les agents qui",
     ctaTitre2: "gagnent du temps",
-    ctaDesc: "14 jours gratuits · Sans carte bancaire · Annulation à tout moment",
+    ctaDesc: "30 jours gratuits · Sans carte bancaire · Annulation à tout moment",
 
     // FOOTER
     footer: "Rédaction Immobilière par l'IA",
@@ -128,7 +128,7 @@ export const translations = {
     heroAccroche: "10 seconds",
     heroDesc: "AI generates your listings, LinkedIn posts, Instagram captions and client emails.",
     commencerGratuitement: "Start for free",
-    sansCarteBank: "14-day free trial · No credit card required",
+    sansCarteBank: "30-day free trial · No credit card required",
 
     // STATS
     parAnnonce: "Per listing",
@@ -174,7 +174,7 @@ export const translations = {
     faqTag: "FAQ",
     faqTitre: "Frequently asked questions",
     faqs: [
-      { q: "How does the free trial work?", a: "You have access to all features for 14 days, no credit card required. At the end of the trial, you choose your plan." },
+      { q: "How does the free trial work?", a: "You have access to all features for 30 days, no credit card required. At the end of the trial, you choose your plan." },
       { q: "Can I cancel at any time?", a: "Yes, with no commitment and no fees. You can cancel your subscription with one click from your account." },
       { q: "Are the texts really unique?", a: "Yes, each generation is unique. The AI creates original text based on the information you provide." },
       { q: "Can I edit the generated texts?", a: "Absolutely! The texts are a starting point that you can freely edit before publishing." },
@@ -185,7 +185,7 @@ export const translations = {
     ctaTag: "Ready to start?",
     ctaTitre1: "Join the agents who",
     ctaTitre2: "save time",
-    ctaDesc: "14-day free trial · No credit card · Cancel anytime",
+    ctaDesc: "30-day free trial · No credit card · Cancel anytime",
 
     // FOOTER
     footer: "Real Estate Copywriting by AI",
