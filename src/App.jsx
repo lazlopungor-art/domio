@@ -5,6 +5,7 @@ import Legal from "./Legal"
 
 const STRIPE_STARTER = import.meta.env.VITE_STRIPE_STARTER
 const STRIPE_PRO = import.meta.env.VITE_STRIPE_PRO
+const STRIPE_BUSINESS = import.meta.env.VITE_STRIPE_BUSINESS
 
 export default function App() {
   const [lang, setLang] = useState("fr")
@@ -426,13 +427,15 @@ export default function App() {
         </div>
       </div>
 
-      {/* PRICING */}
+      {/* PRICING — 3 CARTES */}
       <div style={{ background: "#F5F0E8", padding: "3.5rem 1.5rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.75rem" }}>◆ &nbsp; {t.pricingTag}</div>
           <h2 style={{ fontSize: "clamp(1.3rem, 4vw, 1.8rem)", fontWeight: "normal", color: "#2C2416" }}>{t.pricingTitre}</h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1rem", maxWidth: 700, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1rem", maxWidth: 1000, margin: "0 auto" }}>
+
+          {/* STARTER */}
           <div style={{ background: "#FFFDF9", border: "1px solid #E8DFCF", borderRadius: 2, padding: "1.75rem", boxShadow: "0 2px 12px rgba(44,36,22,0.06)" }}>
             <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.75rem" }}>Starter</div>
             <div style={{ fontSize: "2.2rem", color: "#2C2416", marginBottom: "0.2rem" }}>19€</div>
@@ -446,6 +449,8 @@ export default function App() {
               {t.commencer}
             </button>
           </div>
+
+          {/* PRO */}
           <div style={{ background: "#2C2416", border: "1px solid #2C2416", borderRadius: 2, padding: "1.75rem", boxShadow: "0 8px 30px rgba(44,36,22,0.2)", position: "relative" }}>
             <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: "#D4BD96", color: "#2C2416", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", padding: "3px 12px", borderRadius: 20, fontWeight: "bold", whiteSpace: "nowrap" }}>{t.recommande}</div>
             <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(212,189,150,0.6)", marginBottom: "0.75rem" }}>Pro</div>
@@ -460,6 +465,23 @@ export default function App() {
               ✦ &nbsp; {t.commencer}
             </button>
           </div>
+
+          {/* BUSINESS */}
+          <div style={{ background: "#1A1510", border: "1px solid #D4BD96", borderRadius: 2, padding: "1.75rem", boxShadow: "0 8px 30px rgba(44,36,22,0.3)", position: "relative" }}>
+            <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: "linear-gradient(135deg, #D4BD96, #B8986A)", color: "#1A1510", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", padding: "3px 12px", borderRadius: 20, fontWeight: "bold", whiteSpace: "nowrap" }}>✦ Premium</div>
+            <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(212,189,150,0.6)", marginBottom: "0.75rem" }}>Business</div>
+            <div style={{ fontSize: "2.2rem", color: "#D4BD96", marginBottom: "0.2rem" }}>59€</div>
+            <div style={{ color: "rgba(212,189,150,0.5)", fontSize: 11, marginBottom: "1.25rem" }}>{t.pricingMois}</div>
+            {t.businessFeatures.map(f => (
+              <div key={f} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", marginBottom: "0.6rem", fontSize: "0.82rem", color: "rgba(250,247,242,0.8)" }}>
+                <span style={{ color: "#D4BD96", flexShrink: 0 }}>✦</span> {f}
+              </div>
+            ))}
+            <button onClick={() => window.open(STRIPE_BUSINESS, '_blank')} style={{ width: "100%", padding: "0.75rem", background: "linear-gradient(135deg, #D4BD96, #B8986A)", border: "none", color: "#1A1510", borderRadius: 2, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer", marginTop: "1rem" }}>
+              ✦ &nbsp; {t.commencer}
+            </button>
+          </div>
+
         </div>
       </div>
 
@@ -484,7 +506,7 @@ export default function App() {
           {t.ctaTitre1} <span style={{ color: "#D4BD96", fontStyle: "italic" }}>{t.ctaTitre2}</span>
         </h2>
         <p style={{ color: "rgba(250,247,242,0.5)", marginBottom: "1.75rem", fontSize: "0.88rem" }}>{t.ctaDesc}</p>
-        <button onClick={() => window.open(STRIPE_PRO, '_blank')} style={{ background: "#D4BD96", border: "none", color: "#2C2416", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
+        <button onClick={() => window.open(STRIPE_BUSINESS, '_blank')} style={{ background: "linear-gradient(135deg, #D4BD96, #B8986A)", border: "none", color: "#1A1510", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
           ✦ &nbsp; {t.commencerGratuitement}
         </button>
       </div>

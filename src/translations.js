@@ -52,8 +52,28 @@ export const translations = {
     pricingMois: "par mois",
     recommande: "Recommandé",
     commencer: "Commencer",
-    starterFeatures: ["30 générations/mois", "4 formats de contenu", "3 tons disponibles", "Support par email"],
-    proFeatures: ["Générations illimitées", "4 formats de contenu", "3 tons disponibles", "Support prioritaire", "Nouvelles fonctionnalités en avant-première"],
+    starterFeatures: [
+      "30 générations/mois",
+      "4 formats de contenu",
+      "3 tons disponibles",
+      "Support par email"
+    ],
+    proFeatures: [
+      "Générations illimitées",
+      "4 formats de contenu",
+      "3 tons disponibles",
+      "Support prioritaire",
+      "Nouvelles fonctionnalités" ,
+    ],
+    businessFeatures: [
+      "Tout le plan Pro",
+      "CRM immobilier complet",
+      "Gestion contacts illimitée",
+      "Pipeline de vente visuel",
+      "Suivi des mandats",
+      "Annonces générées depuis le CRM",
+      "Support dédié"
+    ],
 
     // FAQ
     faqTag: "FAQ",
@@ -63,7 +83,8 @@ export const translations = {
       { q: "Puis-je annuler à tout moment ?", a: "Oui, sans engagement et sans frais. Vous pouvez annuler votre abonnement en un clic depuis votre espace client." },
       { q: "Les textes sont-ils vraiment uniques ?", a: "Oui, chaque génération est unique. L'IA crée un texte original basé sur les informations que vous fournissez." },
       { q: "Puis-je modifier les textes générés ?", a: "Absolument ! Les textes sont une base de travail que vous pouvez modifier librement avant de les publier." },
-      { q: "Copyimo fonctionne-t-il sur mobile ?", a: "Oui, Copyimo est accessible sur tous les appareils : ordinateur, tablette et smartphone." }
+      { q: "Copyimo fonctionne-t-il sur mobile ?", a: "Oui, Copyimo est accessible sur tous les appareils : ordinateur, tablette et smartphone." },
+      { q: "Qu'est-ce que le CRM immobilier ?", a: "Le CRM est un outil de gestion intégré qui vous permet de suivre vos contacts, vos mandats et votre pipeline de vente directement dans Copyimo." }
     ],
 
     // CTA
@@ -167,8 +188,28 @@ export const translations = {
     pricingMois: "per month",
     recommande: "Recommended",
     commencer: "Get started",
-    starterFeatures: ["30 generations/month", "4 content formats", "3 tones available", "Email support"],
-    proFeatures: ["Unlimited generations", "4 content formats", "3 tones available", "Priority support", "Early access to new features"],
+    starterFeatures: [
+      "30 generations/month",
+      "4 content formats",
+      "3 tones available",
+      "Email support"
+    ],
+    proFeatures: [
+      "Unlimited generations",
+      "4 content formats",
+      "3 tones available",
+      "Priority support",
+      "Early access to new features"
+    ],
+    businessFeatures: [
+      "Everything in Pro",
+      "Full real estate CRM",
+      "Unlimited contacts",
+      "Visual sales pipeline",
+      "Mandate tracking",
+      "CRM listing generation",
+      "Dedicated support"
+    ],
 
     // FAQ
     faqTag: "FAQ",
@@ -178,7 +219,8 @@ export const translations = {
       { q: "Can I cancel at any time?", a: "Yes, with no commitment and no fees. You can cancel your subscription with one click from your account." },
       { q: "Are the texts really unique?", a: "Yes, each generation is unique. The AI creates original text based on the information you provide." },
       { q: "Can I edit the generated texts?", a: "Absolutely! The texts are a starting point that you can freely edit before publishing." },
-      { q: "Does Copyimo work on mobile?", a: "Yes, Copyimo is accessible on all devices: computer, tablet and smartphone." }
+      { q: "Does Copyimo work on mobile?", a: "Yes, Copyimo is accessible on all devices: computer, tablet and smartphone." },
+      { q: "What is the real estate CRM?", a: "The CRM is an integrated management tool that allows you to track your contacts, mandates and sales pipeline directly in Copyimo." }
     ],
 
     // CTA
