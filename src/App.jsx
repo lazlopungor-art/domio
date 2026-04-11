@@ -2,6 +2,7 @@ import { useState } from "react"
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react"
 import { translations } from "./translations"
 import Legal from "./Legal"
+import CRM from "./CRM"
 
 const STRIPE_STARTER = import.meta.env.VITE_STRIPE_STARTER
 const STRIPE_PRO = import.meta.env.VITE_STRIPE_PRO
@@ -57,6 +58,25 @@ export default function App() {
     { id: "luxe", label: t.prestige }
   ]
 
+  const TopBanner = () => (
+    <div style={{
+      background: "linear-gradient(135deg, #D4BD96, #B8986A)",
+      padding: "0.5rem 1.5rem",
+      textAlign: "center",
+      fontSize: 11,
+      letterSpacing: "0.15em",
+      textTransform: "uppercase",
+      color: "#1C160E",
+      fontFamily: "Georgia, serif",
+      fontWeight: "bold"
+    }}>
+      ✦ &nbsp; {lang === "fr"
+        ? "Rédigez vos annonces immobilières en 10 secondes — 30 jours gratuits"
+        : "Write your real estate listings in 10 seconds — 30 days free"
+      } &nbsp; ✦
+    </div>
+  )
+
   const LangSwitcher = () => (
     <div style={{ display: "flex", gap: "0.25rem" }}>
       {["fr", "en"].map(l => (
@@ -90,6 +110,9 @@ export default function App() {
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
         <LangSwitcher />
+        <button onClick={() => setPage("crm")} style={{ background: "transparent", border: "1px solid rgba(212,189,150,0.3)", color: "rgba(212,189,150,0.6)", padding: "0.45rem 0.9rem", borderRadius: 2, cursor: "pointer", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "Georgia, serif" }}>
+          CRM
+        </button>
         <SignedOut>
           <SignInButton mode="modal">
             <button style={{ background: "transparent", border: "1px solid rgba(212,189,150,0.4)", color: "#D4BD96", padding: "0.45rem 0.9rem", borderRadius: 2, cursor: "pointer", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "Georgia, serif" }}>
@@ -112,8 +135,11 @@ export default function App() {
     </header>
   )
 
+  if (page === "crm") return <CRM onBack={() => setPage("home")} lang={lang} />
+
   if (page === "app") return (
     <div style={{ minHeight: "100vh", background: "#FAF7F2", fontFamily: "Georgia, serif" }}>
+      <TopBanner />
       <Header />
       <div style={{ background: "linear-gradient(180deg, #2C2416 0%, #3D3020 50%, #FAF7F2 100%)", padding: "2rem 1.5rem 3rem", textAlign: "center" }}>
         <h1 style={{ color: "#FAF7F2", fontSize: "1.5rem", fontWeight: "normal", marginBottom: "0.5rem" }}>
@@ -244,6 +270,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#FAF7F2", fontFamily: "Georgia, serif" }}>
+      <TopBanner />
       <Header />
 
       {/* HERO */}
@@ -257,6 +284,10 @@ export default function App() {
           <h1 style={{ color: "#FAF7F2", fontSize: "clamp(1.6rem, 5vw, 2.8rem)", fontWeight: "normal", lineHeight: 1.2, marginBottom: "1.25rem", textShadow: "0 2px 15px rgba(0,0,0,0.5)" }}>
             {t.heroTitre1}<br />{t.heroTitre2}{" "}
             <span style={{ color: "#D4BD96", fontStyle: "italic" }}>{t.heroAccroche}</span>
+            <br />
+            <span style={{ fontSize: "clamp(0.9rem, 2.5vw, 1.3rem)", color: "rgba(212,189,150,0.6)", fontStyle: "normal", letterSpacing: "0.08em" }}>
+              {lang === "fr" ? "✦ Générateur IA · CRM immobilier intégré" : "✦ AI Generator · Integrated Real Estate CRM"}
+            </span>
           </h1>
           <p style={{ color: "rgba(250,247,242,0.9)", fontSize: "clamp(0.85rem, 2.5vw, 1rem)", marginBottom: "2rem", maxWidth: 500, margin: "0 auto 2rem", textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}>
             {t.heroDesc}
@@ -279,7 +310,7 @@ export default function App() {
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "40px", background: "linear-gradient(to bottom, transparent, #FAF7F2)", pointerEvents: "none" }} />
       </div>
 
-      {/* STORYTELLING INTRO */}
+      {/* STORYTELLING */}
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "4rem 1.5rem" }}>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.75rem" }}>◆ &nbsp; {lang === "fr" ? "Une histoire familière" : "A familiar story"}</div>
@@ -351,7 +382,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* APERÇU */}
+      {/* APERÇU GÉNÉRATEUR */}
       <div style={{ background: "#2C2416", padding: "3.5rem 1.5rem", textAlign: "center" }}>
         <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(212,189,150,0.5)", marginBottom: "0.75rem" }}>◆ &nbsp; {t.apercuTag}</div>
         <h2 style={{ fontSize: "clamp(1.3rem, 4vw, 1.8rem)", fontWeight: "normal", color: "#FAF7F2", marginBottom: "2.5rem" }}>{t.apercuTitre}</h2>
@@ -380,10 +411,9 @@ export default function App() {
                     <span style={{ color: "#8B7355", fontSize: "0.72rem" }}>Objet : Une villa d'exception vous attend à Saint-Tropez</span>
                     <br /><br />
                     Madame, Monsieur,<br /><br />
-                    J'ai le privilège de vous présenter en exclusivité une propriété rare sur la Côte d'Azur : une villa contemporaine de <strong>280 m²</strong>, nichée dans un écrin de verdure à deux pas des plages de Saint-Tropez.<br /><br />
-                    Depuis ses terrasses ensoleillées, vous profiterez d'une <strong>vue panoramique sur la mer</strong> à couper le souffle. La piscine à débordement, le jardin paysager et les espaces de vie généreux en font un bien d'exception.<br /><br />
-                    Cette propriété est proposée à <strong>2 850 000 €</strong>. Je reste à votre disposition pour organiser une visite privée.<br /><br />
-                    Avec mes cordiales salutations,<br />
+                    J'ai le privilège de vous présenter une propriété rare sur la Côte d'Azur : une villa contemporaine de <strong>280 m²</strong>, nichée dans un écrin de verdure à deux pas des plages de Saint-Tropez.<br /><br />
+                    Depuis ses terrasses ensoleillées, vous profiterez d'une <strong>vue panoramique sur la mer</strong>.<br /><br />
+                    Cette propriété est proposée à <strong>2 850 000 €</strong>.<br /><br />
                     <span style={{ color: "#8B7355", fontStyle: "italic" }}>[Votre nom], Agent immobilier</span>
                   </>
                 ) : (
@@ -391,10 +421,9 @@ export default function App() {
                     <span style={{ color: "#8B7355", fontSize: "0.72rem" }}>Subject: An exceptional villa awaits you in Saint-Tropez</span>
                     <br /><br />
                     Dear Sir/Madam,<br /><br />
-                    I have the privilege of presenting exclusively a rare property on the French Riviera: a contemporary villa of <strong>280 m²</strong>, nestled in lush greenery just steps from the beaches of Saint-Tropez.<br /><br />
-                    From its sun-drenched terraces, you will enjoy a breathtaking <strong>panoramic sea view</strong>. The infinity pool, landscaped garden and generous living spaces make this an exceptional property.<br /><br />
-                    This property is offered at <strong>€2,850,000</strong>. I remain at your disposal to arrange a private viewing.<br /><br />
-                    Yours sincerely,<br />
+                    I have the privilege of presenting a rare property on the French Riviera: a contemporary villa of <strong>280 m²</strong>, nestled in lush greenery just steps from the beaches of Saint-Tropez.<br /><br />
+                    From its terraces, you will enjoy a breathtaking <strong>panoramic sea view</strong>.<br /><br />
+                    This property is offered at <strong>€2,850,000</strong>.<br /><br />
                     <span style={{ color: "#8B7355", fontStyle: "italic" }}>[Your name], Real Estate Agent</span>
                   </>
                 )}
@@ -404,6 +433,79 @@ export default function App() {
         </div>
         <div style={{ color: "rgba(212,189,150,0.4)", fontSize: 10, marginTop: "1.5rem", letterSpacing: "0.1em" }}>
           ✦ &nbsp; {lang === "fr" ? "Propulsé par l'IA" : "Powered by AI"} &nbsp; ✦
+        </div>
+      </div>
+      <div style={{ height: "30px", background: "#FAF7F2" }} />
+      {/* SECTION CRM */}
+      <div style={{ background: "linear-gradient(180deg, #2C2416 0%, #1C160E 8%)", padding: "4rem 1.5rem" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(212,189,150,0.5)", marginBottom: "0.75rem" }}>◆ &nbsp; {lang === "fr" ? "Nouveau — Plan Business" : "New — Business Plan"}</div>
+            <h2 style={{ fontSize: "clamp(1.3rem, 4vw, 2rem)", fontWeight: "normal", color: "#FAF7F2", marginBottom: "1rem" }}>
+              {lang === "fr" ? "Gérez toute votre activité" : "Manage your entire activity"}{" "}
+              <span style={{ color: "#D4BD96", fontStyle: "italic" }}>{lang === "fr" ? "depuis un seul endroit" : "from one place"}</span>
+            </h2>
+            <p style={{ color: "rgba(250,247,242,0.5)", fontSize: "0.95rem", maxWidth: 500, margin: "0 auto" }}>
+              {lang === "fr"
+                ? "Le CRM Copyimo centralise vos contacts, vos biens et votre pipeline de vente. Générez vos annonces directement depuis vos fiches biens."
+                : "Copyimo CRM centralizes your contacts, properties and sales pipeline. Generate listings directly from your property files."
+              }
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem", marginBottom: "3rem" }}>
+            {(lang === "fr" ? [
+              { icon: "👥", titre: "Gestion des contacts", desc: "Centralisez acheteurs et vendeurs avec leurs budgets, préférences et historique." },
+              { icon: "🏠", titre: "Portefeuille de biens", desc: "Suivez vos mandats, statuts et générez vos annonces en 1 clic depuis la fiche bien." },
+              { icon: "◆", titre: "Pipeline de vente", desc: "Visualisez vos affaires en cours par étape. Glissez-déposez pour mettre à jour." },
+              { icon: "◈", titre: "Dashboard en temps réel", desc: "Valeur du portefeuille, biens disponibles, contacts actifs — tout en un coup d'œil." },
+            ] : [
+              { icon: "👥", titre: "Contact management", desc: "Centralize buyers and sellers with their budgets, preferences and history." },
+              { icon: "🏠", titre: "Property portfolio", desc: "Track your mandates, statuses and generate listings in 1 click from the property file." },
+              { icon: "◆", titre: "Sales pipeline", desc: "Visualize your ongoing deals by stage. Drag and drop to update." },
+              { icon: "◈", titre: "Real-time dashboard", desc: "Portfolio value, available properties, active contacts — everything at a glance." },
+            ]).map((f, i) => (
+              <div key={i} style={{ background: "rgba(255,253,249,0.05)", border: "1px solid rgba(212,189,150,0.15)", borderRadius: 2, padding: "1.5rem" }}>
+                <div style={{ fontSize: "1.5rem", marginBottom: "0.75rem" }}>{f.icon}</div>
+                <div style={{ color: "#D4BD96", fontSize: "0.88rem", fontWeight: "bold", marginBottom: "0.5rem" }}>{f.titre}</div>
+                <div style={{ color: "rgba(250,247,242,0.45)", fontSize: "0.8rem", lineHeight: 1.7 }}>{f.desc}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ background: "rgba(255,253,249,0.04)", border: "1px solid rgba(212,189,150,0.15)", borderRadius: 4, padding: "1.5rem", marginBottom: "2.5rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
+              {[
+                { label: lang === "fr" ? "Contacts" : "Contacts", value: "3", icon: "👥" },
+                { label: lang === "fr" ? "Biens" : "Properties", value: "3", icon: "🏠" },
+                { label: lang === "fr" ? "Disponibles" : "Available", value: "2", icon: "✅" },
+                { label: lang === "fr" ? "Valeur" : "Value", value: "4.28M€", icon: "💰" },
+              ].map((s, i) => (
+                <div key={i} style={{ background: "rgba(255,253,249,0.06)", borderRadius: 2, padding: "1rem", textAlign: "center", border: "1px solid rgba(212,189,150,0.1)" }}>
+                  <div style={{ fontSize: "1.2rem", marginBottom: "0.4rem" }}>{s.icon}</div>
+                  <div style={{ fontSize: "1.3rem", color: "#D4BD96" }}>{s.value}</div>
+                  <div style={{ fontSize: 9, color: "rgba(212,189,150,0.4)", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 2 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: "0.5rem" }}>
+              {(lang === "fr" ? ["Prospect", "Visite", "Offre", "Négociation", "Signé"] : ["Prospect", "Visit", "Offer", "Negotiation", "Signed"]).map((stage, i) => (
+                <div key={i} style={{ background: "rgba(255,253,249,0.04)", border: "1px solid rgba(212,189,150,0.1)", borderRadius: 2, padding: "0.75rem", textAlign: "center" }}>
+                  <div style={{ fontSize: 9, color: "rgba(212,189,150,0.5)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{stage}</div>
+                  <div style={{ fontSize: 16, color: "rgba(212,189,150,0.3)" }}>⌂</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ textAlign: "center" }}>
+            <button onClick={() => setPage("crm")} style={{ background: "linear-gradient(135deg, #D4BD96, #B8986A)", border: "none", color: "#1C160E", padding: "1rem 2.5rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer", marginBottom: "1rem" }}>
+              ✦ &nbsp; {lang === "fr" ? "Découvrir le CRM" : "Discover the CRM"}
+            </button>
+            <div style={{ color: "rgba(212,189,150,0.3)", fontSize: 10, letterSpacing: "0.1em" }}>
+              {lang === "fr" ? "Inclus dans le plan Business à 59€/mois" : "Included in the Business plan at €59/month"}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -427,15 +529,13 @@ export default function App() {
         </div>
       </div>
 
-      {/* PRICING — 3 CARTES */}
+      {/* PRICING */}
       <div style={{ background: "#F5F0E8", padding: "3.5rem 1.5rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.75rem" }}>◆ &nbsp; {t.pricingTag}</div>
           <h2 style={{ fontSize: "clamp(1.3rem, 4vw, 1.8rem)", fontWeight: "normal", color: "#2C2416" }}>{t.pricingTitre}</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1rem", maxWidth: 1000, margin: "0 auto" }}>
-
-          {/* STARTER */}
           <div style={{ background: "#FFFDF9", border: "1px solid #E8DFCF", borderRadius: 2, padding: "1.75rem", boxShadow: "0 2px 12px rgba(44,36,22,0.06)" }}>
             <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.75rem" }}>Starter</div>
             <div style={{ fontSize: "2.2rem", color: "#2C2416", marginBottom: "0.2rem" }}>19€</div>
@@ -449,8 +549,6 @@ export default function App() {
               {t.commencer}
             </button>
           </div>
-
-          {/* PRO */}
           <div style={{ background: "#2C2416", border: "1px solid #2C2416", borderRadius: 2, padding: "1.75rem", boxShadow: "0 8px 30px rgba(44,36,22,0.2)", position: "relative" }}>
             <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: "#D4BD96", color: "#2C2416", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", padding: "3px 12px", borderRadius: 20, fontWeight: "bold", whiteSpace: "nowrap" }}>{t.recommande}</div>
             <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(212,189,150,0.6)", marginBottom: "0.75rem" }}>Pro</div>
@@ -465,8 +563,6 @@ export default function App() {
               ✦ &nbsp; {t.commencer}
             </button>
           </div>
-
-          {/* BUSINESS */}
           <div style={{ background: "#1A1510", border: "1px solid #D4BD96", borderRadius: 2, padding: "1.75rem", boxShadow: "0 8px 30px rgba(44,36,22,0.3)", position: "relative" }}>
             <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: "linear-gradient(135deg, #D4BD96, #B8986A)", color: "#1A1510", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", padding: "3px 12px", borderRadius: 20, fontWeight: "bold", whiteSpace: "nowrap" }}>✦ Premium</div>
             <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(212,189,150,0.6)", marginBottom: "0.75rem" }}>Business</div>
@@ -481,7 +577,6 @@ export default function App() {
               ✦ &nbsp; {t.commencer}
             </button>
           </div>
-
         </div>
       </div>
 
@@ -526,22 +621,13 @@ export default function App() {
                 <span style={{ color: "#D4BD96", fontSize: "2rem" }}>⌂</span>
               </div>
               <p style={{ fontSize: "0.95rem", lineHeight: 2, color: "#2C2416", marginBottom: "1rem" }}>
-                {lang === "fr"
-                  ? "Copyimo est né d'une double passion : la technologie et l'immobilier. En observant le quotidien des professionnels de l'immobilier, nous avons réalisé qu'une tâche revenait sans cesse : rédiger."
-                  : "Copyimo was born from a dual passion: technology and real estate. By observing the daily lives of real estate professionals, we realized that one task kept coming up: writing."
-                }
+                {lang === "fr" ? "Copyimo est né d'une double passion : la technologie et l'immobilier. En observant le quotidien des professionnels de l'immobilier, nous avons réalisé qu'une tâche revenait sans cesse : rédiger." : "Copyimo was born from a dual passion: technology and real estate. By observing the daily lives of real estate professionals, we realized that one task kept coming up: writing."}
               </p>
               <p style={{ fontSize: "0.95rem", lineHeight: 2, color: "#2C2416", marginBottom: "1rem" }}>
-                {lang === "fr"
-                  ? "Des annonces, des posts, des emails... Des heures précieuses perdues chaque semaine sur des tâches répétitives, au détriment de ce qui compte vraiment : accompagner vos clients et développer votre activité."
-                  : "Listings, posts, emails... Precious hours lost each week on repetitive tasks, at the expense of what really matters: accompanying your clients and growing your business."
-                }
+                {lang === "fr" ? "Des annonces, des posts, des emails... Des heures précieuses perdues chaque semaine sur des tâches répétitives, au détriment de ce qui compte vraiment : accompagner vos clients et développer votre activité." : "Listings, posts, emails... Precious hours lost each week on repetitive tasks, at the expense of what really matters: accompanying your clients and growing your business."}
               </p>
               <p style={{ fontSize: "0.95rem", lineHeight: 2, color: "#2C2416" }}>
-                {lang === "fr"
-                  ? "Nous avons créé Copyimo pour vous rendre ce temps. Simple, rapide, élégant — à l'image des professionnels qui l'utilisent."
-                  : "We created Copyimo to give you back this time. Simple, fast, elegant — just like the professionals who use it."
-                }
+                {lang === "fr" ? "Nous avons créé Copyimo pour vous rendre ce temps. Simple, rapide, élégant — à l'image des professionnels qui l'utilisent." : "We created Copyimo to give you back this time. Simple, fast, elegant — just like the professionals who use it."}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>

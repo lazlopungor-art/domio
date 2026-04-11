@@ -7,7 +7,7 @@ export const translations = {
     soustitre: "Rédaction Immobilière",
 
     // HERO
-    tagline: "L'art de la rédaction immobilière",
+    tagline: "Générateur d'annonces IA + CRM immobilier",
     heroTitre1: "Rédigez vos annonces",
     heroTitre2: "immobilières en",
     heroAccroche: "10 secondes",
@@ -63,7 +63,7 @@ export const translations = {
       "4 formats de contenu",
       "3 tons disponibles",
       "Support prioritaire",
-      "Nouvelles fonctionnalités" ,
+      "Nouvelles fonctionnalités en avant-première"
     ],
     businessFeatures: [
       "Tout le plan Pro",
@@ -143,7 +143,7 @@ export const translations = {
     soustitre: "Real Estate Copywriting",
 
     // HERO
-    tagline: "The art of real estate copywriting",
+    tagline: "AI listing generator + Real estate CRM",
     heroTitre1: "Write your property listings",
     heroTitre2: "in just",
     heroAccroche: "10 seconds",
