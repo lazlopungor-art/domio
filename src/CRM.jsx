@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useUser } from "@clerk/clerk-react"
+import { supabase } from "./supabase"
 
 const PIPELINE_STAGES_FR = ["Prospect", "Visite", "Offre", "Négociation", "Signé"]
 const PIPELINE_STAGES_EN = ["Prospect", "Visit", "Offer", "Negotiation", "Signed"]
@@ -13,46 +15,100 @@ const STAGE_COLORS = {
 export default function CRM({ onBack, lang = "fr" }) {
   const isFr = lang === "fr"
   const PIPELINE_STAGES = isFr ? PIPELINE_STAGES_FR : PIPELINE_STAGES_EN
+  const { user, isLoaded } = useUser()
+const userId = user?.id
+
+if (!isLoaded) return (
+  <div style={{ minHeight: "100vh", background: "#F7F4EF", fontFamily: "Georgia, serif", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div style={{ color: "#8B7355", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+      {isFr ? "Chargement..." : "Loading..."}
+    </div>
+  </div>
+)
+
   const [activeTab, setActiveTab] = useState("dashboard")
-  const [contacts, setContacts] = useState([
-    { id: 1, nom: "Martin Sophie", type: isFr ? "Acheteur" : "Buyer", email: "sophie@email.com", tel: "06 12 34 56 78", budget: "350 000", note: isFr ? "Cherche maison 4 pièces" : "Looking for 4-room house" },
-    { id: 2, nom: "Dupont Jean", type: isFr ? "Vendeur" : "Seller", email: "jean@email.com", tel: "06 98 76 54 32", budget: "480 000", note: isFr ? "Vend appartement Paris" : "Selling Paris apartment" },
-    { id: 3, nom: "Bernard Claire", type: isFr ? "Acheteur" : "Buyer", email: "claire@email.com", tel: "06 45 67 89 01", budget: "650 000", note: isFr ? "Cherche villa avec jardin" : "Looking for villa with garden" },
-  ])
-  const [biens, setBiens] = useState([
-    { id: 1, titre: isFr ? "Villa avec piscine" : "Villa with pool", type: "Villa", ville: "Saint-Tropez", surface: "280", prix: "2 850 000", statut: isFr ? "Disponible" : "Available", stage: "Prospect" },
-    { id: 2, titre: isFr ? "Appartement haussmannien" : "Haussmann apartment", type: isFr ? "Appartement" : "Apartment", ville: "Paris 16e", surface: "120", prix: "980 000", statut: isFr ? "En négociation" : "In negotiation", stage: isFr ? "Négociation" : "Negotiation" },
-    { id: 3, titre: isFr ? "Maison de caractère" : "Character house", type: isFr ? "Maison" : "House", ville: "Bordeaux", surface: "180", prix: "450 000", statut: isFr ? "Disponible" : "Available", stage: isFr ? "Visite" : "Visit" },
-  ])
+  const [contacts, setContacts] = useState([])
+  const [biens, setBiens] = useState([])
+  const [loadingData, setLoadingData] = useState(true)
   const [showAddContact, setShowAddContact] = useState(false)
   const [showAddBien, setShowAddBien] = useState(false)
   const [newContact, setNewContact] = useState({ nom: "", type: isFr ? "Acheteur" : "Buyer", email: "", tel: "", budget: "", note: "" })
   const [newBien, setNewBien] = useState({ titre: "", type: isFr ? "Maison" : "House", ville: "", surface: "", prix: "", statut: isFr ? "Disponible" : "Available", stage: "Prospect" })
   const [dragBien, setDragBien] = useState(null)
 
-  const addContact = () => {
+  // CHARGER LES DONNÉES
+  useEffect(() => {
+    if (!userId) return
+    loadData()
+  }, [userId])
+
+  const loadData = async () => {
+    setLoadingData(true)
+    try {
+      const { data: contactsData } = await supabase
+        .from("contacts")
+        .select("*")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+
+      const { data: biensData } = await supabase
+        .from("biens")
+        .select("*")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+
+      setContacts(contactsData || [])
+      setBiens(biensData || [])
+    } catch (e) {
+      console.error("Erreur chargement:", e)
+    }
+    setLoadingData(false)
+  }
+
+  const addContact = async () => {
     if (!newContact.nom) return
-    setContacts([...contacts, { ...newContact, id: Date.now() }])
-    setNewContact({ nom: "", type: isFr ? "Acheteur" : "Buyer", email: "", tel: "", budget: "", note: "" })
-    setShowAddContact(false)
+    const { data, error } = await supabase
+      .from("contacts")
+      .insert([{ ...newContact, user_id: userId }])
+      .select()
+    if (!error && data) {
+      setContacts([data[0], ...contacts])
+      setNewContact({ nom: "", type: isFr ? "Acheteur" : "Buyer", email: "", tel: "", budget: "", note: "" })
+      setShowAddContact(false)
+    }
   }
 
-  const addBien = () => {
+  const addBien = async () => {
     if (!newBien.titre) return
-    setBiens([...biens, { ...newBien, id: Date.now() }])
-    setNewBien({ titre: "", type: isFr ? "Maison" : "House", ville: "", surface: "", prix: "", statut: isFr ? "Disponible" : "Available", stage: "Prospect" })
-    setShowAddBien(false)
+    const { data, error } = await supabase
+      .from("biens")
+      .insert([{ ...newBien, user_id: userId }])
+      .select()
+    if (!error && data) {
+      setBiens([data[0], ...biens])
+      setNewBien({ titre: "", type: isFr ? "Maison" : "House", ville: "", surface: "", prix: "", statut: isFr ? "Disponible" : "Available", stage: "Prospect" })
+      setShowAddBien(false)
+    }
   }
 
-  const deleteContact = (id) => setContacts(contacts.filter(c => c.id !== id))
-  const deleteBien = (id) => setBiens(biens.filter(b => b.id !== id))
-  const moveBien = (stage) => {
+  const deleteContact = async (id) => {
+    await supabase.from("contacts").delete().eq("id", id)
+    setContacts(contacts.filter(c => c.id !== id))
+  }
+
+  const deleteBien = async (id) => {
+    await supabase.from("biens").delete().eq("id", id)
+    setBiens(biens.filter(b => b.id !== id))
+  }
+
+  const moveBien = async (stage) => {
     if (!dragBien) return
+    await supabase.from("biens").update({ stage }).eq("id", dragBien)
     setBiens(biens.map(b => b.id === dragBien ? { ...b, stage } : b))
     setDragBien(null)
   }
 
-  const valeurTotale = biens.reduce((sum, b) => sum + parseInt(b.prix.replace(/\s/g, "") || 0), 0)
+  const valeurTotale = biens.reduce((sum, b) => sum + parseInt(b.prix?.replace(/\s/g, "") || 0), 0)
   const stats = {
     contacts: contacts.length,
     biens: biens.length,
@@ -67,6 +123,23 @@ export default function CRM({ onBack, lang = "fr" }) {
     { id: "biens", label: isFr ? "Biens" : "Properties", icon: "🏠" },
     { id: "pipeline", label: "Pipeline", icon: "◆" },
   ]
+  if (!userId) return (
+    <div style={{ minHeight: "100vh", background: "#F7F4EF", fontFamily: "Georgia, serif", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "1rem" }}>
+      <div style={{ color: "#8B7355", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>{isFr ? "Connectez-vous pour accéder au CRM" : "Sign in to access the CRM"}</div>
+      <button onClick={onBack} style={{ background: "#1C160E", border: "none", color: "#D4BD96", padding: "0.7rem 1.25rem", borderRadius: 2, cursor: "pointer", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "Georgia, serif" }}>
+        ← {isFr ? "Retour" : "Back"}
+      </button>
+    </div>
+  )
+  if (loadingData) return (
+    <div style={{ minHeight: "100vh", background: "#F7F4EF", fontFamily: "Georgia, serif", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "1rem" }}>
+      <div style={{ display: "flex", gap: 8 }}>
+        {[0, 1, 2].map(i => <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: "#8B7355", animation: "fade 1.4s infinite", animationDelay: `${i * 0.3}s` }} />)}
+      </div>
+      <div style={{ color: "#8B7355", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>{isFr ? "Chargement..." : "Loading..."}</div>
+      <style>{`@keyframes fade { 0%,100%{opacity:.2;transform:scale(.8)} 50%{opacity:1;transform:scale(1.1)} }`}</style>
+    </div>
+  )
 
   return (
     <div style={{ minHeight: "100vh", background: "#F7F4EF", fontFamily: "Georgia, serif", boxSizing: "border-box", overflowX: "hidden" }}>
@@ -101,10 +174,9 @@ export default function CRM({ onBack, lang = "fr" }) {
 
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "2rem 1.5rem", boxSizing: "border-box", width: "100%" }}>
 
-        {/* ═══ DASHBOARD ═══ */}
+        {/* DASHBOARD */}
         {activeTab === "dashboard" && (
           <div>
-            {/* TITRE */}
             <div style={{ marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "0.5rem" }}>
               <div>
                 <div style={{ fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#8B7355", marginBottom: "0.4rem" }}>✦ &nbsp; {isFr ? "Tableau de bord" : "Dashboard"}</div>
@@ -112,12 +184,11 @@ export default function CRM({ onBack, lang = "fr" }) {
                   {isFr ? "Bonjour —" : "Welcome —"} <span style={{ color: "#8B7355", fontStyle: "italic" }}>{isFr ? "votre activité du jour" : "your activity today"}</span>
                 </h1>
               </div>
-              <div style={{ fontSize: "0.75rem", color: "#B8A88A", letterSpacing: "0.08em", textAlign: "right" }}>
+              <div style={{ fontSize: "0.75rem", color: "#B8A88A", letterSpacing: "0.08em" }}>
                 {new Date().toLocaleDateString(isFr ? "fr-FR" : "en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
               </div>
             </div>
 
-            {/* KPI */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
               {[
                 { label: isFr ? "Contacts" : "Contacts", value: stats.contacts, icon: "👥", accent: "#6B8CA1" },
@@ -132,21 +203,20 @@ export default function CRM({ onBack, lang = "fr" }) {
                   </div>
                   <div style={{ fontSize: "2rem", color: "#1C160E", lineHeight: 1, marginBottom: "0.75rem" }}>{s.value}</div>
                   <div style={{ height: 2, background: "#EAE2D6", borderRadius: 1 }}>
-                    <div style={{ height: "100%", width: `${Math.min((parseInt(s.value) / 5) * 100, 100)}%`, background: s.accent, borderRadius: 1, transition: "width 0.5s" }} />
+                    <div style={{ height: "100%", width: `${Math.min((parseInt(s.value) / 5) * 100, 100)}%`, background: s.accent, borderRadius: 1 }} />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* VALEUR TOTALE */}
             <div style={{ background: "#1C160E", borderRadius: 2, padding: "1.5rem 2rem", marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ fontSize: 9, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(212,189,150,0.5)", marginBottom: "0.4rem" }}>◆ &nbsp; {isFr ? "Valeur totale du portefeuille" : "Total portfolio value"}</div>
-                <div style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)", color: "#D4BD96", letterSpacing: "-0.02em" }}>{stats.valeur} €</div>
+                <div style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)", color: "#D4BD96" }}>{stats.valeur} €</div>
               </div>
               <div style={{ display: "flex", gap: "2rem" }}>
                 {[
-                  { label: isFr ? "Biens actifs" : "Active properties", value: stats.biens },
+                  { label: isFr ? "Biens actifs" : "Active", value: stats.biens },
                   { label: isFr ? "En cours" : "In progress", value: biens.filter(b => b.stage !== "Signé" && b.stage !== "Signed").length },
                 ].map((s, i) => (
                   <div key={i} style={{ textAlign: "center" }}>
@@ -157,37 +227,40 @@ export default function CRM({ onBack, lang = "fr" }) {
               </div>
             </div>
 
-            {/* TABLEAUX */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem" }}>
-
-              {/* CONTACTS */}
               <div style={{ background: "#FFFDF9", borderRadius: 2, border: "1px solid #EAE2D6", overflow: "hidden", boxShadow: "0 1px 6px rgba(44,36,22,0.05)" }}>
                 <div style={{ padding: "1rem 1.25rem", background: "#F5F0E8", borderBottom: "1px solid #EAE2D6", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B7355" }}>👥 &nbsp; {isFr ? "Contacts récents" : "Recent contacts"}</div>
                   <button onClick={() => setActiveTab("contacts")} style={{ background: "none", border: "none", color: "#8B7355", cursor: "pointer", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "Georgia, serif" }}>{isFr ? "Voir tous →" : "View all →"}</button>
                 </div>
-                {contacts.map((c, i) => (
-                  <div key={c.id} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 1.25rem", borderBottom: i < contacts.length - 1 ? "1px solid #F7F4EF" : "none" }}>
-                    <div style={{ width: 34, height: 34, borderRadius: "50%", background: c.type === "Acheteur" || c.type === "Buyer" ? "#EEF8F2" : "#F8EEF5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.85rem", fontWeight: "bold", color: c.type === "Acheteur" || c.type === "Buyer" ? "#4B8C6B" : "#8C4B6B", flexShrink: 0 }}>
+                {contacts.length === 0 ? (
+                  <div style={{ padding: "2rem", textAlign: "center", color: "#B8A88A", fontSize: "0.8rem", fontStyle: "italic" }}>
+                    {isFr ? "Aucun contact pour l'instant" : "No contacts yet"}
+                  </div>
+                ) : contacts.slice(0, 3).map((c, i) => (
+                  <div key={c.id} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 1.25rem", borderBottom: i < 2 ? "1px solid #F7F4EF" : "none" }}>
+                    <div style={{ width: 34, height: 34, borderRadius: "50%", background: "#EEF8F2", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.85rem", fontWeight: "bold", color: "#4B8C6B", flexShrink: 0 }}>
                       {c.nom.charAt(0)}
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: "0.82rem", fontWeight: "bold", color: "#1C160E", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.nom}</div>
-                      <div style={{ fontSize: "0.72rem", color: "#B8A88A", marginTop: 1 }}>{c.budget} € · {c.type}</div>
+                      <div style={{ fontSize: "0.72rem", color: "#B8A88A", marginTop: 1 }}>{c.budget ? `${c.budget} €` : ""} · {c.type}</div>
                     </div>
-                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#4B8C6B", flexShrink: 0 }} />
                   </div>
                 ))}
               </div>
 
-              {/* BIENS */}
               <div style={{ background: "#FFFDF9", borderRadius: 2, border: "1px solid #EAE2D6", overflow: "hidden", boxShadow: "0 1px 6px rgba(44,36,22,0.05)" }}>
                 <div style={{ padding: "1rem 1.25rem", background: "#F5F0E8", borderBottom: "1px solid #EAE2D6", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#8B7355" }}>🏠 &nbsp; {isFr ? "Biens récents" : "Recent properties"}</div>
                   <button onClick={() => setActiveTab("biens")} style={{ background: "none", border: "none", color: "#8B7355", cursor: "pointer", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "Georgia, serif" }}>{isFr ? "Voir tous →" : "View all →"}</button>
                 </div>
-                {biens.map((b, i) => (
-                  <div key={b.id} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 1.25rem", borderBottom: i < biens.length - 1 ? "1px solid #F7F4EF" : "none" }}>
+                {biens.length === 0 ? (
+                  <div style={{ padding: "2rem", textAlign: "center", color: "#B8A88A", fontSize: "0.8rem", fontStyle: "italic" }}>
+                    {isFr ? "Aucun bien pour l'instant" : "No properties yet"}
+                  </div>
+                ) : biens.slice(0, 3).map((b, i) => (
+                  <div key={b.id} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 1.25rem", borderBottom: i < 2 ? "1px solid #F7F4EF" : "none" }}>
                     <div style={{ width: 34, height: 34, borderRadius: 3, background: "#F5F0E8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem", flexShrink: 0 }}>⌂</div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: "0.82rem", fontWeight: "bold", color: "#1C160E", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{b.titre}</div>
@@ -195,7 +268,7 @@ export default function CRM({ onBack, lang = "fr" }) {
                     </div>
                     <div style={{ textAlign: "right", flexShrink: 0 }}>
                       <div style={{ fontSize: "0.78rem", fontWeight: "bold", color: "#1C160E" }}>{b.prix} €</div>
-                      <div style={{ fontSize: 8, padding: "1px 6px", borderRadius: 10, background: b.statut === "Disponible" || b.statut === "Available" ? "#EEF8F2" : "#F5F0E8", color: b.statut === "Disponible" || b.statut === "Available" ? "#4B8C6B" : "#8B7355", marginTop: 2 }}>{b.statut}</div>
+                      <div style={{ fontSize: 8, padding: "1px 6px", borderRadius: 10, background: "#EEF8F2", color: "#4B8C6B", marginTop: 2 }}>{b.statut}</div>
                     </div>
                   </div>
                 ))}
@@ -204,7 +277,7 @@ export default function CRM({ onBack, lang = "fr" }) {
           </div>
         )}
 
-        {/* ═══ CONTACTS ═══ */}
+        {/* CONTACTS */}
         {activeTab === "contacts" && (
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2rem", flexWrap: "wrap", gap: "0.5rem" }}>
@@ -256,13 +329,17 @@ export default function CRM({ onBack, lang = "fr" }) {
                   <div key={i} style={{ fontSize: 8, letterSpacing: "0.2em", textTransform: "uppercase", color: "#B8A88A" }}>{h}</div>
                 ))}
               </div>
-              {contacts.map((c, i) => (
+              {contacts.length === 0 ? (
+                <div style={{ padding: "3rem", textAlign: "center", color: "#B8A88A", fontSize: "0.85rem", fontStyle: "italic" }}>
+                  {isFr ? "Aucun contact — ajoutez votre premier contact !" : "No contacts — add your first contact!"}
+                </div>
+              ) : contacts.map((c, i) => (
                 <div key={c.id} style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1.5fr 1fr auto", gap: "1rem", padding: "1rem 1.25rem", borderBottom: i < contacts.length - 1 ? "1px solid #F7F4EF" : "none", alignItems: "center", background: i % 2 === 0 ? "#FFFDF9" : "#FDFAF6" }}>
                   <div>
                     <div style={{ fontSize: "0.85rem", fontWeight: "bold", color: "#1C160E" }}>{c.nom}</div>
-                    {c.note && <div style={{ fontSize: "0.7rem", color: "#B8A88A", fontStyle: "italic", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.note}</div>}
+                    {c.note && <div style={{ fontSize: "0.7rem", color: "#B8A88A", fontStyle: "italic", marginTop: 2 }}>{c.note}</div>}
                   </div>
-                  <div style={{ fontSize: 8, padding: "3px 8px", borderRadius: 20, background: c.type === "Acheteur" || c.type === "Buyer" ? "#EEF8F2" : "#F8EEF5", color: c.type === "Acheteur" || c.type === "Buyer" ? "#4B8C6B" : "#8C4B6B", display: "inline-block", whiteSpace: "nowrap" }}>{c.type}</div>
+                  <div style={{ fontSize: 8, padding: "3px 8px", borderRadius: 20, background: "#EEF8F2", color: "#4B8C6B", display: "inline-block" }}>{c.type}</div>
                   <div style={{ fontSize: "0.78rem", color: "#8B7355", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.email}</div>
                   <div style={{ fontSize: "0.82rem", color: "#1C160E", fontWeight: "bold" }}>{c.budget} €</div>
                   <button onClick={() => deleteContact(c.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#C08080", fontSize: 16, lineHeight: 1, padding: 0 }}>×</button>
@@ -272,7 +349,7 @@ export default function CRM({ onBack, lang = "fr" }) {
           </div>
         )}
 
-        {/* ═══ BIENS ═══ */}
+        {/* BIENS */}
         {activeTab === "biens" && (
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2rem", flexWrap: "wrap", gap: "0.5rem" }}>
@@ -321,7 +398,11 @@ export default function CRM({ onBack, lang = "fr" }) {
             )}
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
-              {biens.map(b => (
+              {biens.length === 0 ? (
+                <div style={{ padding: "3rem", textAlign: "center", color: "#B8A88A", fontSize: "0.85rem", fontStyle: "italic", background: "#FFFDF9", border: "1px solid #EAE2D6", borderRadius: 2 }}>
+                  {isFr ? "Aucun bien — ajoutez votre premier bien !" : "No properties — add your first property!"}
+                </div>
+              ) : biens.map(b => (
                 <div key={b.id} style={{ background: "#FFFDF9", border: "1px solid #EAE2D6", borderRadius: 2, overflow: "hidden", boxShadow: "0 1px 6px rgba(44,36,22,0.05)" }}>
                   <div style={{ background: "#1C160E", padding: "1rem 1.25rem", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -342,7 +423,7 @@ export default function CRM({ onBack, lang = "fr" }) {
                       </div>
                     </div>
                     <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-                      <div style={{ fontSize: 8, padding: "3px 8px", borderRadius: 10, background: b.statut === "Disponible" || b.statut === "Available" ? "#EEF8F2" : "#F5F0E8", color: b.statut === "Disponible" || b.statut === "Available" ? "#4B8C6B" : "#8B7355" }}>{b.statut}</div>
+                      <div style={{ fontSize: 8, padding: "3px 8px", borderRadius: 10, background: "#EEF8F2", color: "#4B8C6B" }}>{b.statut}</div>
                       <div style={{ fontSize: 8, padding: "3px 8px", borderRadius: 10, background: "#F5F0E8", color: STAGE_COLORS[b.stage] || "#8B7355" }}>{b.stage}</div>
                     </div>
                     <button style={{ width: "100%", padding: "0.6rem", background: "#F5F0E8", border: "1px solid #EAE2D6", color: "#8B7355", borderRadius: 2, cursor: "pointer", fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "Georgia, serif" }}>
@@ -355,7 +436,7 @@ export default function CRM({ onBack, lang = "fr" }) {
           </div>
         )}
 
-        {/* ═══ PIPELINE ═══ */}
+        {/* PIPELINE */}
         {activeTab === "pipeline" && (
           <div>
             <div style={{ marginBottom: "2rem" }}>
@@ -403,6 +484,7 @@ export default function CRM({ onBack, lang = "fr" }) {
         )}
 
       </div>
+      <style>{`@keyframes fade { 0%,100%{opacity:.2;transform:scale(.8)} 50%{opacity:1;transform:scale(1.1)} }`}</style>
     </div>
   )
 }
