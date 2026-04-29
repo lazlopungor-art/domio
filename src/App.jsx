@@ -292,11 +292,18 @@ export default function App() {
           <p style={{ color: "rgba(250,247,242,0.9)", fontSize: "clamp(0.85rem, 2.5vw, 1rem)", marginBottom: "2rem", maxWidth: 500, margin: "0 auto 2rem", textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}>
             {t.heroDesc}
           </p>
-          <SignUpButton mode="modal">
-            <button style={{ background: "#D4BD96", border: "none", color: "#2C2416", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 20px rgba(212,189,150,0.4)" }}>
-              ✦ &nbsp; {t.commencerGratuitement}
+          <SignedOut>
+            <SignUpButton mode="modal">
+              <button style={{ background: "#D4BD96", border: "none", color: "#2C2416", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 20px rgba(212,189,150,0.4)" }}>
+                ✦ &nbsp; {t.commencerGratuitement}
+              </button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <button onClick={() => setPage("app")} style={{ background: "#D4BD96", border: "none", color: "#2C2416", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 20px rgba(212,189,150,0.4)" }}>
+              ✦ &nbsp; {t.monEspace}
             </button>
-          </SignUpButton>
+          </SignedIn>
           <div style={{ color: "rgba(212,189,150,0.7)", fontSize: 11, marginTop: "1rem" }}>{t.sansCarteBank}</div>
           <div style={{ display: "flex", justifyContent: "center", gap: "clamp(1rem, 4vw, 3rem)", marginTop: "2.5rem", flexWrap: "wrap" }}>
             {[["10 sec", t.parAnnonce], ["4 formats", t.deContenu], ["3 tons", t.differents], ["100%", t.enFrancais]].map(([val, desc]) => (
@@ -357,11 +364,18 @@ export default function App() {
           ))}
         </div>
         <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
-          <SignUpButton mode="modal">
-            <button style={{ background: "#2C2416", border: "none", color: "#D4BD96", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
-              ✦ &nbsp; {t.commencerGratuitement}
+          <SignedOut>
+            <SignUpButton mode="modal">
+              <button style={{ background: "#2C2416", border: "none", color: "#D4BD96", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
+                ✦ &nbsp; {t.commencerGratuitement}
+              </button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <button onClick={() => setPage("app")} style={{ background: "#2C2416", border: "none", color: "#D4BD96", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
+              ✦ &nbsp; {t.monEspace}
             </button>
-          </SignUpButton>
+          </SignedIn>
         </div>
       </div>
 
@@ -435,7 +449,7 @@ export default function App() {
           ✦ &nbsp; {lang === "fr" ? "Propulsé par l'IA" : "Powered by AI"} &nbsp; ✦
         </div>
       </div>
-      <div style={{ height: "30px", background: "#FAF7F2" }} />
+
       {/* SECTION CRM */}
       <div style={{ background: "linear-gradient(180deg, #2C2416 0%, #1C160E 8%)", padding: "4rem 1.5rem" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto" }}>
@@ -508,6 +522,9 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* BANDE BLANCHE */}
+      <div style={{ height: "30px", background: "#FAF7F2" }} />
 
       {/* TÉMOIGNAGES */}
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "3.5rem 1.5rem" }}>
@@ -601,9 +618,18 @@ export default function App() {
           {t.ctaTitre1} <span style={{ color: "#D4BD96", fontStyle: "italic" }}>{t.ctaTitre2}</span>
         </h2>
         <p style={{ color: "rgba(250,247,242,0.5)", marginBottom: "1.75rem", fontSize: "0.88rem" }}>{t.ctaDesc}</p>
-        <button onClick={() => window.open(STRIPE_BUSINESS, '_blank')} style={{ background: "linear-gradient(135deg, #D4BD96, #B8986A)", border: "none", color: "#1A1510", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
-          ✦ &nbsp; {t.commencerGratuitement}
-        </button>
+        <SignedOut>
+          <SignUpButton mode="modal">
+            <button style={{ background: "linear-gradient(135deg, #D4BD96, #B8986A)", border: "none", color: "#1A1510", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
+              ✦ &nbsp; {t.commencerGratuitement}
+            </button>
+          </SignUpButton>
+        </SignedOut>
+        <SignedIn>
+          <button onClick={() => setPage("app")} style={{ background: "linear-gradient(135deg, #D4BD96, #B8986A)", border: "none", color: "#1A1510", padding: "1rem 2rem", borderRadius: 2, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "Georgia, serif", fontWeight: "bold", cursor: "pointer" }}>
+            ✦ &nbsp; {t.monEspace}
+          </button>
+        </SignedIn>
       </div>
 
       {/* QUI SOMMES NOUS */}
